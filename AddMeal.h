@@ -926,10 +926,28 @@ void BrowseMenu()
 		cout << "3. Update Cart" << endl;
 		cout << "4. Checkout" << endl;
 		cin >> choice;
-		//if (choice == 1)
-
+		if (choice == 1)
+			OrderMenu(foodMenu, drinkMenu, cart);
 	}
 }
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-8-20
+// LAST MODIFIED: 12-8-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+/*void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCart> cart)
+{
+	int choice = -1;
+	cout << setw(20) << right << "Menu" << endl;
+	cout << "1. Food Menu" << endl;
+	cout << "2. Drink Menu" << endl;
+	cout << "Please select a Menu to order from: ";
+	cin >> choice;
+	if (choice = 1)
+
+}*/
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
@@ -940,16 +958,46 @@ void BrowseMenu()
 void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCart> cart)
 {
 	int choice = -1;
-	cout << setw(20) << right << "Menu" << endl;
-	cout << "1. Food Menu" << endl;
-	cout << "2. Drink Menu" << endl;
-	cout << "Please select a Menu to order from: ";
-	cin >> choice;
-	if (choice = 1)
-
+	cout << setw(20) << right << "Food Menus" << endl;
+	cout << "1. Breakfast" << endl;
+	cout << "2. Lunch" << endl;
+	cout << "3. Dinner" << endl;
+	cout << "4. Drinks" << endl;
+	while (choice == -1)
+	{
+		cout << "Please select a Menu to order from: ";
+		cin >> choice;
+		if (choice == 1)
+			DisplayBreakfastMenu(foodMenu);
+		//if (choice == 2)
+			//DisplayLunchMenu(foodMenu, drinkMenu);
+	}
 }
 
-void OrderFood(vector<Dish> foodMenu)
+void DisplayBreakfastMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCart> cart)
 {
-
+	int choice;
+	cout << "Breakfast Menu" << endl;
+	cout << "1. Appetizers" << endl;
+	cout << "2. Main Entrees" << endl;
+	cout << "3. Sides" << endl;
+	cout << "4. Dessert" << endl;
+	cout << "5. Drinks " << endl;
+	cout << "Please select a section to order from: ";
+	cin >> choice;
+	if (choice == 1)
+	{
+		int num = 0;
+		for (int i = 0; i < foodMenu.size(); i++)
+		{
+			if (foodMenu[i].GetDT == 'B' && foodMenu[i].GetCourse == 'A')
+				//cout << num << 
+		}
+	}
+/*	vector<Dish> breakfastMenu;
+	for (int i = 0; i < foodMenu.size(); i++)
+	{
+		if (foodMenu[i].GetDT == 'B')
+		cout << i + 1 << ". " << foodMenu[i].GetName << "       " << foodMenu[i].GetPrice;
+	}*/
 }
