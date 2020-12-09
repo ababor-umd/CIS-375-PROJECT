@@ -71,15 +71,7 @@ FlightRecommendation::FlightRecommendation() {
 }
 
 //setter for destination city
-void FlightRecommendation::setDestinationCity() {
-     cout << "Choose The Destination city: " << endl;
-     for (int i = 0; i < this->city.size(); i++) {
-          cout << i  << " => " << this->city[i] << endl;
-     }
-
-     string userOpinion = "";
-     getline(cin, userOpinion);
-
+void FlightRecommendation::setDestinationCity(string userOpinion) {
      stringstream userOpinioonInString(userOpinion);
      int userOpinioonInInt;
      userOpinioonInString >> userOpinioonInInt;
@@ -103,16 +95,15 @@ string FlightRecommendation::getDestinationCity() {
      return this->destinationCity;
 }
 
-//setter for source city
-void FlightRecommendation::setSourceCity() {
+void FlightRecommendation::printCities() {
      cout << "Choose The Source city: " << endl;
      for (int i = 0; i < this->city.size(); i++) {
           cout << i  << " => " << this->city[i] << endl;
      }
+}
 
-     string userOpinion = "";
-     getline(cin, userOpinion);
-
+//setter for source city
+void FlightRecommendation::setSourceCity(string userOpinion) {
      stringstream userOpinioonInString(userOpinion);
      int userOpinioonInInt;
      userOpinioonInString >> userOpinioonInInt;
@@ -156,7 +147,6 @@ void FlightRecommendation::addEdges(int source, int destination, int weight)
 }
 
 //A method to print the graph as adjacency list
-
 void FlightRecommendation::printAdjList()
 {
      int i = 0;
@@ -174,160 +164,160 @@ void FlightRecommendation::printAdjList()
 }
 
 
-
 // A method to find out the shortest path between two nodes(front source to destination)
+//int FlightRecommendation::foundShortestPathBasedOnDistance(int source, int destination)
+//{
+//     //let's first initialize all of them
+//     minHeapNodeAjkAlgo* heapNodeArr = new minHeapNodeAjkAlgo[10];
+//     const int INF = INT_MAX;
+//     for (int i = 0; i < 10; i++) {
+//          heapNodeArr[i].cost = INF;
+//          heapNodeArr[i].vertexNum = i;
+//          heapNodeArr[i].parent = "";
+//     }
+//     //Initialization Done!
+//
+//     //Let's initialize the source cost to 0 since distance from source to sourece is 0
+//     heapNodeArr[source].cost = 0;
+//     heapNodeArr[source].parent = "";
+//
+//     //Let's declare the the min Heap that is going to be used to determine shortest path
+//     MinHeapDjkAlgo myHeap(10);
+//
+//     //let's insert node to the min Heap (myHeap)
+//     for (int i = 0; i < 10; i++) {
+//          myHeap.insertNode(heapNodeArr[i]);
+//     }
+//
+//     //let's declare a vector which will store each node and the minimum cost required to visit that node from the source
+//     vector < minHeapNodeAjkAlgo> myVec;//Instead of vector I could have used set data structure
+//
+//     minHeapNodeAjkAlgo nextMin;
+//     //let's get to the meat of the shortest path algorithm
+//
+//     cout << endl << endl;
+//    
+//
+//     //so, let's show the shortest path building procedure when the total number of vertices is less than or equal to 10
+//     if (true) {
+//          cout << "Shortest Path Building Procedure based on Distance: " << endl << endl;
+//     }
+//
+//     while (!myHeap.isEmpty())
+//     {
+//          minHeapNodeAjkAlgo front = myHeap.extractMin();
+//          myVec.push_back(front);
+//
+//          //let's print the building procedure step by step
+//
+//          if (true) {
+//               for (int i = 0; i < myVec.size(); i++) {
+//                    int vertexNumber = 0;
+//                    while (vertexNumber < 10) {
+//                         if (myVec.at(i).vertexNum == vertexNumber) {
+//                              if (myVec.at(i).parent == "")
+//                              {
+//                                   cout << vertexNumber << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
+//                              }
+//                              else {
+//                                   cout << myVec.at(i).parent << "" << vertexNumber << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
+//                              }
+//                         }
+//                         vertexNumber++;
+//                    }
+//               }
+//               cout << endl;
+//          }
+//
+//
+//          //Now let's do the relaxing
+//
+//          int sourceTwo = front.vertexNum;
+//          adjListNode* temp = adjList[sourceTwo];
+//
+//          while (temp)//if temp exists
+//          {
+//               if (myHeap.isAvailable(temp->destination))
+//               {
+//                    int index = myHeap.getIndex(temp->destination);
+//                    if (myHeap.getCost(temp->destination) > (front.cost + temp->weight))
+//                    {
+//                         myHeap.decrease(index, (front.cost + temp->weight));
+//                         //here i have gotta do something
+//                         int i = front.vertexNum;
+//                         string str = to_string(i);
+//                         if (front.parent != "")//that is where i was in trouble
+//                         {
+//                              str = front.parent + "" + str;//That is where I was in trouble
+//                         }
+//                         str = str + "-->";
+//                         int index = myHeap.getIndex(temp->destination);//
+//                         myHeap.setParent(index, str);
+//
+//
+//                    }
+//               }
+//               temp = temp->next;
+//          }
+//          delete temp;//taking care of the dynamic memory
+//     }
+//
+//     cout << endl << endl;
+//
+//     cout << "Shortest Path and Shortest Path Distance Between " << this->city[source] << " and " << this->city[destination] << ": " << endl;
+//
+//
+//     cout << endl;
+//     int dist;
+//     for (int i = 0; i < myVec.size(); i++) {
+//          if (myVec.at(i).vertexNum == destination) {
+//               if (myVec.at(i).parent == "") {
+//                    cout << this->city[destination] << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
+//               }
+//               else {
+//
+//                    int startingVerTexIndex = 0;
+//                    char c = (char)source;
+//
+//
+//                    
+//                    int lengthOfPathString = myVec.at(i).parent.length();
+//                    while (true) {
+//                         if (myVec.at(i).parent.at(lengthOfPathString - 1) - '0' == source) {
+//                              break;
+//                         }
+//                         lengthOfPathString--;
+//                        
+//                    }
+//
+//                    startingVerTexIndex = lengthOfPathString-1;
+//
+//
+//
+//                    for (int j = startingVerTexIndex; j < myVec.at(i).parent.length(); j++) {
+//                         if (isdigit(myVec.at(i).parent.at(j))) {
+//                              char digit = myVec.at(i).parent.at(j);
+//                              int x = digit - '0';
+//                              cout << this->city[x];
+//                         }
+//                         else {
+//                              cout << myVec.at(i).parent.at(j);
+//                         }
+//                    }
+//
+//                    cout << myVec.at(i).parent << "" << destination << "   Total Distance: " << myVec.at(i).cost << " miles" << endl;
+//                    cout << this->city[destination] << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
+//
+//               }
+//          }
+//     }
+//
+//     cout << endl << endl;
+//
+//     // delete[]temp;
+//}
 
-void FlightRecommendation::foundShortestPathBasedOnDistance(int source, int destination)
-{
-     //let's first initialize all of them
-     minHeapNodeAjkAlgo* heapNodeArr = new minHeapNodeAjkAlgo[10];
-     const int INF = INT_MAX;
-     for (int i = 0; i < 10; i++) {
-          heapNodeArr[i].cost = INF;
-          heapNodeArr[i].vertexNum = i;
-          heapNodeArr[i].parent = "";
-     }
-     //Initialization Done!
-
-     //Let's initialize the source cost to 0 since distance from source to sourece is 0
-     heapNodeArr[source].cost = 0;
-     heapNodeArr[source].parent = "";
-
-     //Let's declare the the min Heap that is going to be used to determine shortest path
-     MinHeapDjkAlgo myHeap(10);
-
-     //let's insert node to the min Heap (myHeap)
-     for (int i = 0; i < 10; i++) {
-          myHeap.insertNode(heapNodeArr[i]);
-     }
-
-     //let's declare a vector which will store each node and the minimum cost required to visit that node from the source
-     vector < minHeapNodeAjkAlgo> myVec;//Instead of vector I could have used set data structure
-
-     minHeapNodeAjkAlgo nextMin;
-     //let's get to the meat of the shortest path algorithm
-
-     cout << endl << endl;
-    
-
-     //so, let's show the shortest path building procedure when the total number of vertices is less than or equal to 10
-     if (true) {
-          cout << "Shortest Path Building Procedure based on Distance: " << endl << endl;
-     }
-
-     while (!myHeap.isEmpty())
-     {
-          minHeapNodeAjkAlgo front = myHeap.extractMin();
-          myVec.push_back(front);
-
-          //let's print the building procedure step by step
-
-          if (true) {
-               for (int i = 0; i < myVec.size(); i++) {
-                    int vertexNumber = 0;
-                    while (vertexNumber < 10) {
-                         if (myVec.at(i).vertexNum == vertexNumber) {
-                              if (myVec.at(i).parent == "")
-                              {
-                                   cout << vertexNumber << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
-                              }
-                              else {
-                                   cout << myVec.at(i).parent << "" << vertexNumber << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
-                              }
-                         }
-                         vertexNumber++;
-                    }
-               }
-               cout << endl;
-          }
-
-
-          //Now let's do the relaxing
-
-          int sourceTwo = front.vertexNum;
-          adjListNode* temp = adjList[sourceTwo];
-
-          while (temp)//if temp exists
-          {
-               if (myHeap.isAvailable(temp->destination))
-               {
-                    int index = myHeap.getIndex(temp->destination);
-                    if (myHeap.getCost(temp->destination) > (front.cost + temp->weight))
-                    {
-                         myHeap.decrease(index, (front.cost + temp->weight));
-                         //here i have gotta do something
-                         int i = front.vertexNum;
-                         string str = to_string(i);
-                         if (front.parent != "")//that is where i was in trouble
-                         {
-                              str = front.parent + "" + str;//That is where I was in trouble
-                         }
-                         str = str + "-->";
-                         int index = myHeap.getIndex(temp->destination);//
-                         myHeap.setParent(index, str);
-
-
-                    }
-               }
-               temp = temp->next;
-          }
-          delete temp;//taking care of the dynamic memory
-     }
-
-     cout << endl << endl;
-
-     cout << "Shortest Path and Shortest Path Distance Between " << this->city[source] << " and " << this->city[destination] << ": " << endl;
-
-
-     cout << endl;
-     for (int i = 0; i < myVec.size(); i++) {
-          if (myVec.at(i).vertexNum == destination) {
-               if (myVec.at(i).parent == "") {
-                    cout << this->city[destination] << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
-               }
-               else {
-
-                    int startingVerTexIndex = 0;
-                    char c = (char)source;
-
-
-                    
-                    int lengthOfPathString = myVec.at(i).parent.length();
-                    while (true) {
-                         if (myVec.at(i).parent.at(lengthOfPathString - 1) - '0' == source) {
-                              break;
-                         }
-                         lengthOfPathString--;
-                        
-                    }
-
-                    startingVerTexIndex = lengthOfPathString-1;
-
-
-
-                    for (int j = startingVerTexIndex; j < myVec.at(i).parent.length(); j++) {
-                         if (isdigit(myVec.at(i).parent.at(j))) {
-                              char digit = myVec.at(i).parent.at(j);
-                              int x = digit - '0';
-                              cout << this->city[x];
-                         }
-                         else {
-                              cout << myVec.at(i).parent.at(j);
-                         }
-                    }
-
-                   // cout << myVec.at(i).parent << "" << destination << "   Total Distance: " << myVec.at(i).cost << " miles" << endl;
-                    cout << this->city[destination] << "   Total Distance: " << myVec.at(i).cost <<" miles"<< endl;
-               }
-          }
-     }
-
-     cout << endl << endl;
-
-     // delete[]temp;
-}
-
-void FlightRecommendation::pathRecommendationBasedOnDistance() {
+int FlightRecommendation::pathRecommendationBasedOnDistance() {
      
      int source = -1;
      int destination = -1;
@@ -344,7 +334,8 @@ void FlightRecommendation::pathRecommendationBasedOnDistance() {
      }
 
      if (source != -1 && destination != -1) {
-          foundShortestPathBasedOnDistance(source, destination);
+         return findBestFlight(source, destination);
+          
      }
 
 
@@ -352,7 +343,7 @@ void FlightRecommendation::pathRecommendationBasedOnDistance() {
 
 
 // A method to find out the shortest path between two nodes(front source to destination)
-void FlightRecommendation::foundCheapestPathBasedOnCost(int source, int destination)
+int FlightRecommendation::findBestFlight(int source, int destination)
 {
      //let's first initialize all of them
      minHeapNodeAjkAlgo* heapNodeArr = new minHeapNodeAjkAlgo[10];
@@ -382,12 +373,12 @@ void FlightRecommendation::foundCheapestPathBasedOnCost(int source, int destinat
      minHeapNodeAjkAlgo nextMin;
      //let's get to the meat of the shortest path algorithm
 
-     cout << endl << endl;
+     //cout << endl << endl;
 
 
      //so, let's show the shortest path building procedure when the total number of vertices is less than or equal to 10
      if (true) {
-          cout << "Shortest Path Building Procedure: " << endl << endl;
+          //cout << "Shortest Path Building Procedure: " << endl << endl;
      }
 
      while (!myHeap.isEmpty())
@@ -397,24 +388,24 @@ void FlightRecommendation::foundCheapestPathBasedOnCost(int source, int destinat
 
           //let's print the building procedure step by step
 
-          if (true) {
-               for (int i = 0; i < myVec.size(); i++) {
-                    int vertexNumber = 0;
-                    while (vertexNumber < 10) {
-                         if (myVec.at(i).vertexNum == vertexNumber) {
-                              if (myVec.at(i).parent == "")
-                              {
-                                   cout << vertexNumber << "   Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
-                              }
-                              else {
-                                   cout << myVec.at(i).parent << "" << vertexNumber << "   Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
-                              }
-                         }
-                         vertexNumber++;
-                    }
-               }
-               cout << endl;
-          }
+          //if (true) {
+          //     for (int i = 0; i < myVec.size(); i++) {
+          //          int vertexNumber = 0;
+          //          while (vertexNumber < 10) {
+          //               if (myVec.at(i).vertexNum == vertexNumber) {
+          //                    if (myVec.at(i).parent == "")
+          //                    {
+          //                         cout << vertexNumber << "   Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
+          //                    }
+          //                    else {
+          //                         cout << myVec.at(i).parent << "" << vertexNumber << "   Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
+          //                    }
+          //               }
+          //               vertexNumber++;
+          //          }
+          //     }
+          //     cout << endl;
+          //}
 
 
           //Now let's do the relaxing
@@ -449,16 +440,17 @@ void FlightRecommendation::foundCheapestPathBasedOnCost(int source, int destinat
           delete temp;//taking care of the dynamic memory
      }
 
-     cout << endl << endl;
+     //cout << endl << endl;
 
-     cout << "Chpeast cost path between " << this->city[source] << " and " << this->city[destination] << ": " << endl;
+     //cout << "Chpeast cost path between " << this->sourceCity << " and " << this->destinationCity << ": " << endl;
 
 
-     cout << endl;
+     //cout << endl;
+     int cost;
      for (int i = 0; i < myVec.size(); i++) {
           if (myVec.at(i).vertexNum == destination) {
                if (myVec.at(i).parent == "") {
-                    cout << this->city[destination] << "   Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
+                    cout << this->city[destination] << " Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
                }
                else {
 
@@ -484,31 +476,33 @@ void FlightRecommendation::foundCheapestPathBasedOnCost(int source, int destinat
                          if (isdigit(myVec.at(i).parent.at(j))) {
                               char digit = myVec.at(i).parent.at(j);
                               int x = digit - '0';
-                              cout << this->city[x];
+                              //cout << this->city[x];
                          }
                          else {
-                              cout << myVec.at(i).parent.at(j);
+                              //cout << myVec.at(i).parent.at(j);
                          }
                     }
 
-                    // cout << myVec.at(i).parent << "" << destination << "   Total Distance: " << myVec.at(i).cost << " miles" << endl;
-                    cout << this->city[destination] << "   Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
+                    //cout << this->city[i] << " --> " << this->city[destination] << "   Total Distance: " << adjList[destination]->weight << " miles" << endl;
+                    cost = i;
+                    //cout << this->sourceCity << " --> " << this->destinationCity << "   Total Cost: " << myVec.at(i).cost << " Dollars" << endl;
+                    //cout << endl;
                }
           }
      }
-
-     cout << endl << endl;
+     return myVec.at(cost).cost;
+     //cout << endl << endl;
 
      // delete[]temp;
 }
 
 
-void FlightRecommendation::flightPathRecommenderBasedOnCost() {
+int FlightRecommendation::flightPathRecommenderBasedOnCost() {
      //let's first set the to null
      adjList.clear();
      adjList.resize(10, NULL);
 
-     //0 will represent Beijing
+    //0 will represent Beijing
     //1 will represent New York
     //2 will represent London
     //3 will represent Moscow
@@ -519,32 +513,21 @@ void FlightRecommendation::flightPathRecommenderBasedOnCost() {
     //8 will represent Singapore
     //9 will represent Tokyo
 
-    //Flight Cost between Beijing and New York $501 
-    //Flight Cost between New York and London $569 
-    //Flight Cost between London and Los Angeles $449 
-    //Flight Cost between Los Angeles and paris $816 
-    //Flight Cost between paris and Dubai $380 
-    //Flight Cost between Dubai and Moscow $302 
-    //Flight Cost between Beijing and Moscow $456 
-    //Flight Cost between Moscow and Toronto $734 
-    //Flight Cost between Toronto and Singapore $894 
-    //Flight Cost between Singapore and Tokyo $527 
-    //Flight Cost between Tokyo and Los Angeles $691 
-    //let's add these to our travel map 
+    //third parameter is the price which is calculated by distance/2
 
-     addEdges(0, 1, 501);
-     addEdges(1, 2, 569);
-     addEdges(2, 6, 449);
-     addEdges(6, 5, 816);
-     addEdges(5, 4, 380);
-     addEdges(4, 3, 302);
-     addEdges(0, 3, 456);
-     addEdges(3, 7, 734);
-     addEdges(7, 8, 894);
-     addEdges(8, 9, 527);
-     addEdges(9, 6, 691);
+     addEdges(0, 1, 3422);
+     addEdges(1, 2, 1730);
+     addEdges(2, 6, 2724);
+     addEdges(6, 5, 2835);
+     addEdges(5, 4, 1630);
+     addEdges(4, 3, 1350);
+     addEdges(0, 3, 1809);
+     addEdges(3, 7, 2280);
+     addEdges(7, 8, 4662);
+     addEdges(8, 9, 2741);
+     addEdges(9, 6, 2740);
 
-     printAdjList();
+     //printAdjList();
 
      int source = -1;
      int destination = -1;
@@ -558,8 +541,5 @@ void FlightRecommendation::flightPathRecommenderBasedOnCost() {
                destination = i;
           }
      }
-
-     foundCheapestPathBasedOnCost(source, destination);
-
-
+     return findBestFlight(source, destination);
 }
