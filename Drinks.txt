@@ -1,0 +1,14 @@
+Pepsi. 0 0 0 1 1 1 1.00
+Apple juice. 0 0 0 0 0 1 1.00
+Water. 0 0 0 0 0 1 0.00
+Coffee. 0 0 1 0 1 0 2.00
+Tea. 0 0 1 0 1 0 1.00
+Milk. 0 0 0 0 0 1 0.75
+Old Nation Brewing Co M-43. 1 6.8 0 1 0 0 5.00
+Dom Perignon Champagne. 1 12.5 0 1 0 0 15.00
+Two James Spirits Johnny Smoking Gun Whiskey. 1 40 0 0 0 0 15.00
+Russian Standard Vodka. 1 38 0 0 0 0 10.00
+Chateau Chantal Bubbly Cherry. 1 12.5 0 1 0 0 12.00
+Leftfoot Charly Missing Spire Riesling. 1 11 0 0 0 0 12.00
+Jagermeister. 1 35 0 0 0 0 15.00
+Red Bull. 0 0 0 1 1 0 7.00

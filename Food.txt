@@ -1,0 +1,14 @@
+French Toast. A B 149 1 1 0 5.79
+Bagel. A B 245 1 1 0 1.15
+Yogurt. A B 100 1 1 0 2.33
+3 Buttermilk pancakes. E B 258 1 1 0 5.75
+Southwest Omelette. E B 960 0 0 0 10.29
+Belgian Waffles. E B 360 1 1 0 5.79
+Hash brown. S B 200 1 0 0 1.20
+Banana. S B 105 1 0 0 0.57
+Sausage. S B 330 0 0 0 1.29
+Muffin. D B 426 1 0 0 2.29
+Danish. D B 106 1 0 0 2.50
+Pigs in a blanket. K B 979 0 0 1 7.20
+Smiley face pancake. K B 360 1 0 1 3.79
+Junior scrambled eggs and bacon. K B 165 0 1 1 3.99
