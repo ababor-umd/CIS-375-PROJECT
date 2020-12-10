@@ -998,7 +998,10 @@ void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCar
 		cout << "Please select a Menu to order from: ";
 		cin >> choice;
 		if (choice == 1 || choice == 2 || choice == 3)
+		{
 			DisplayMenuF(BuildFMenu(choice, foodMenu), cart);
+			break;
+		}
 		if (choice == 4)
 			DrinkMenu(drinkMenu, cart);
 		else if (choice == 0)
@@ -1049,11 +1052,11 @@ void DisplayMenuF(vector<Dish> fMenu, vector<MealCart>& cart)
 {
 	int choice;
 	if (fMenu.at(0).GetDT() == 'B')
-		cout << setw(20) << right << "Breakfast Menu" << endl;
+		cout << endl << setw(20) << right << "Breakfast Menu" << endl;
 	else if (fMenu.at(0).GetDT() == 'L')
-		cout << setw(20) << right << "Lunch Menu" << endl;
+		cout << endl << setw(20) << right << "Lunch Menu" << endl;
 	else if (fMenu.at(0).GetDT() == 'D')
-		cout << setw(20) << right << "Dinner Menu" << endl;
+		cout << endl << setw(20) << right << "Dinner Menu" << endl;
 	else
 	{
 		cerr << "Error. No Menu type was ever given for food." << endl;
@@ -1069,7 +1072,10 @@ void DisplayMenuF(vector<Dish> fMenu, vector<MealCart>& cart)
 	cout << "Please select a section to order from: ";
 	cin >> choice;
 	if (choice < 5 && choice > 0)
+	{
 		Courses(MealCourseFilter(fMenu, choice), cart);
+		return;
+	}
 	/*else if (choice == 2)
 		Entrees(fMenu, cart);
 	else if (choice == 3)
@@ -1115,7 +1121,7 @@ vector<Dish> MealCourseFilter(vector<Dish> fMenu, int choice)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-9-20
+// LAST MODIFIED: 12-10-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
@@ -1123,9 +1129,17 @@ void Courses(vector<Dish> fMenu, vector<MealCart>& cart)
 {
 	MealCart toCart;
 	int choice = -1;
+	cout << endl;
 	for (int i = 0; i < fMenu.size(); i++)
-		cout << i + 1 << ". " << fMenu.at(i).GetName() << "    " << fMenu.at(i).GetPrice() << endl;
-	cout << "Order an appetizer by typing its number or type '0' to return." << endl;
+		cout << i + 1 << ". " << fMenu.at(i).GetName() << "    $" << setprecision(2) << fMenu.at(i).GetPrice() << endl;
+	if (fMenu.at(0).GetCourse() == 'A')
+		cout << "Order an appetizer by typing its number or type '0' to return: ";
+	else if (fMenu.at(0).GetCourse() == 'E')
+		cout << "Order an entree by typing its number or type '0' to return: ";
+	else if (fMenu.at(0).GetCourse() == 'S')
+		cout << "Order a side by typing its number or type '0' to return: ";
+	else if (fMenu.at(0).GetCourse() == 'D')
+		cout << "Order a dessert by typing its number or type '0' to return: ";
 	while (choice == -1)
 	{
 		cin >> choice;
@@ -1133,150 +1147,8 @@ void Courses(vector<Dish> fMenu, vector<MealCart>& cart)
 		{
 			toCart.SetItem(fMenu.at(choice - 1).GetName(), fMenu.at(choice - 1).GetPrice(), 1);
 			cart.push_back(toCart);
-		}
-		else if (choice == 0)
+			cout << "Adding " << fMenu.at(choice - 1).GetName() << " ($" << fMenu.at(choice - 1).GetPrice() << ") to cart." << endl;
 			break;
-		else
-		{
-			cerr << "Error. Please enter a valid choice." << endl;
-			choice = -1;
-		}
-	}
-}
-
-// AUTHOR: Ethan Puschell
-// CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
-void Entrees(vector<Dish> menu, vector<MealCart>& cart)
-{
-	vector<Dish> bMain;
-	MealCart toCart;
-	int choice = -1;
-	for (int i = 0; i < bMain.size(); i++)
-		cout << i + 1 << ". " << bMain.at(i).GetName() << "    " << bMain.at(i).GetPrice() << endl;
-	cout << "Order an Entree by typing its number or type '0' to return." << endl;
-	while (choice == -1)
-	{
-		cin >> choice;
-		if (choice > 0 && choice < bMain.size() + 1)
-		{
-			toCart.SetItem(bMain.at(choice - 1).GetName(), bMain.at(choice - 1).GetPrice(), 1);
-			cart.push_back(toCart);
-		}
-		else if (choice == 0)
-			break;
-		else
-		{
-			cerr << "Error. Please enter a valid choice." << endl;
-			choice = -1;
-		}
-	}
-}
-
-// AUTHOR: Ethan Puschell
-// CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
-void Sides(vector<Dish> menu, vector<MealCart>& cart)
-{
-	vector<Dish> bMain;
-	MealCart toCart;
-	int choice = -1;
-	for (int i = 0; i < menu.size(); i++)
-	{
-		if (menu.at(i).GetCourse() == 'S')
-			bMain.push_back(menu.at(i));
-	}
-	for (int i = 0; i < bMain.size(); i++)
-		cout << i + 1 << ". " << bMain.at(i).GetName() << "    " << bMain.at(i).GetPrice() << endl;
-	cout << "Order a Side by typing its number or type '0' to return." << endl;
-	while (choice == -1)
-	{
-		cin >> choice;
-		if (choice > 0 && choice < bMain.size() + 1)
-		{
-			toCart.SetItem(bMain.at(choice - 1).GetName(), bMain.at(choice - 1).GetPrice(), 1);
-			cart.push_back(toCart);
-		}
-		else if (choice == 0)
-			break;
-		else
-		{
-			cerr << "Error. Please enter a valid choice." << endl;
-			choice = -1;
-		}
-	}
-}
-
-// AUTHOR: Ethan Puschell
-// CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
-void Dessert(vector<Dish> menu, vector<MealCart>& cart)
-{
-	vector<Dish> bMain;
-	MealCart toCart;
-	int choice = -1;
-	for (int i = 0; i < menu.size(); i++)
-	{
-		if (menu.at(i).GetCourse() == 'S')
-			bMain.push_back(menu.at(i));
-	}
-	for (int i = 0; i < bMain.size(); i++)
-		cout << i + 1 << ". " << bMain.at(i).GetName() << "    " << bMain.at(i).GetPrice() << endl;
-	cout << "Order a Dessert by typing its number or type '0' to return." << endl;
-	while (choice == -1)
-	{
-		cin >> choice;
-		if (choice > 0 && choice < bMain.size() + 1)
-		{
-			toCart.SetItem(bMain.at(choice - 1).GetName(), bMain.at(choice - 1).GetPrice(), 1);
-			cart.push_back(toCart);
-		}
-		else if (choice == 0)
-			break;
-		else
-		{
-			cerr << "Error. Please enter a valid choice." << endl;
-			choice = -1;
-		}
-	}
-}
-
-// AUTHOR: Ethan Puschell
-// CREATION DATE: 12-10-20
-// LAST MODIFIED: 12-10-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
-void Kids(vector<Dish> menu, vector<MealCart>& cart)
-{
-	vector<Dish> bMain;
-	MealCart toCart;
-	int choice = -1;
-	for (int i = 0; i < menu.size(); i++)
-	{
-		if (menu.at(i).GetCourse() == 'K')
-			bMain.push_back(menu.at(i));
-	}
-	for (int i = 0; i < bMain.size(); i++)
-		cout << i + 1 << ". " << bMain.at(i).GetName() << "    " << bMain.at(i).GetPrice() << endl;
-	cout << "Order a Kids entree by typing its number or type '0' to return." << endl;
-	choice = -1;
-	while (choice == -1)
-	{
-		cin >> choice;
-		if (choice > 0 && choice < bMain.size() + 1)
-		{
-			toCart.SetItem(bMain.at(choice - 1).GetName(), bMain.at(choice - 1).GetPrice(), 1);
-			cart.push_back(toCart);
 		}
 		else if (choice == 0)
 			break;
@@ -1346,7 +1218,8 @@ vector<Beverage> BuildDMenu(vector<Beverage> drinkMenu,int choice)
 // DESCRIPTION: 
 void DisplayMenuD(vector<Beverage> dMenu, vector<MealCart>& cart)
 {
-	int choice;
+	int choice = -1;
+	MealCart toCart;
 	if (dMenu.at(0).GetAlcohol() == false)
 		cout << setw(20) << right << "Soft drinks Menu" << endl;
 	else if (dMenu.at(0).GetAlcohol() == true)
@@ -1359,7 +1232,55 @@ void DisplayMenuD(vector<Beverage> dMenu, vector<MealCart>& cart)
 	}
 	for (int i = 0; i < dMenu.size(); i++)
 		cout << i + 1 << ". " << dMenu.at(i).GetBevName() << "\t" << dMenu.at(i).GetPrice() << endl;
+	cout << "Order a beverage by typing its number or type '0' to return: ";
+	while (choice == -1)
+	{
+		cin >> choice;
+		if (choice > 0 && choice < dMenu.size() + 1 && ValidateAge(dMenu.at(choice - 1)) == true)
+		{
+			toCart.SetItem(dMenu.at(choice - 1).GetBevName(), dMenu.at(choice - 1).GetPrice(), 1);
+			cart.push_back(toCart);
+			cout << "Adding " << dMenu.at(choice - 1).GetBevName() << " ($" << dMenu.at(choice - 1).GetPrice() << ") to cart." << endl;
+			break;
+		}
+		else if (choice == 0)
+			break;
+		else
+		{
+			cerr << "Error. Please enter a valid choice." << endl;
+			choice = -1;
+		}
+	}
 }
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-10-20
+// LAST MODIFIED: 12-10-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
+bool ValidateAge(Beverage drink)
+{
+	bool age;
+	if (drink.GetAlcohol() == true)
+	{
+		cout << "Are you 21 years or older?";
+		cin >> age;
+		if (age < 21)
+		{
+			cout << "Sorry, you are not old enough to order this drink." << endl;
+			return false;
+		}
+		else
+		{
+			cout << "Success! Please present a Photo ID to the cabin crew when they deliver your drink for verification." << endl;
+			return true;
+		}
+	}
+	else
+		return true;
+}
+
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
 // LAST MODIFIED: 12-9-20
