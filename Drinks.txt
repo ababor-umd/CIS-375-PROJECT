@@ -1,4 +1,13 @@
 Pepsi. 0 0 0 1 1 1 1.00
+Cherry Pepsi. 0 0 0 1 1 1 1.00
+Diet Pepsi. 0 0 0 1 1 1 1.00
+Mountain Dew. 0 0 0 1 1 1 1.00
+Diet Mountain Dew. 0 0 0 1 1 1 1.00
+A&W Root Beer. 0 0 0 1 1 1 1.00
+Diet A&W Root Beer. 0 0 0 1 1 1 1.00
+Sprite. 0 0 0 1 1 1 1.00
+Sprite Zero. 0 0 0 1 1 1 1.00
+Faygo Rock & Rye. 0 0 0 1 1 1 1.00
 Apple juice. 0 0 0 0 0 1 1.00
 Water. 0 0 0 0 0 1 0.00
 Coffee. 0 0 1 0 1 0 2.00
