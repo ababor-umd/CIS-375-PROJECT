@@ -1,14 +1,38 @@
 French Toast. A B 149 1 1 0 5.79
 Bagel. A B 245 1 1 0 1.15
 Yogurt. A B 100 1 1 0 2.33
-3 Buttermilk pancakes. E B 258 1 1 0 5.75
+Buttermilk pancakes x3. E B 258 1 1 0 5.75
 Southwest Omelette. E B 960 0 0 0 10.29
 Belgian Waffles. E B 360 1 1 0 5.79
-Hash brown. S B 200 1 0 0 1.20
+Hash brown. S B 200 1 0 0 1.25
 Banana. S B 105 1 0 0 0.57
 Sausage. S B 330 0 0 0 1.29
 Muffin. D B 426 1 0 0 2.29
-Danish. D B 106 1 0 0 2.50
-Pigs in a blanket. K B 979 0 0 1 7.20
+Danish. D B 106 1 0 0 2.55
+Pigs in a blanket. K B 979 0 0 1 7.25
 Smiley face pancake. K B 360 1 0 1 3.79
 Junior scrambled eggs and bacon. K B 165 0 1 1 3.99
+Mozzarella sticks. A L 764 1 1 0 7.49
+Hummus and pita chips. A L 25 1 0 0 5.25
+Shrimp cocktail. A L 140 0 1 0 7.59
+Cheeseburger. E L 303 0 0 0 8.09
+Veggie Pita Wrap. E L 280 1 0 0 6.69
+Yardbird. E L 357 0 1 0 13.59
+Pudding cup. D L 340 1 1 0 2.58
+Cookies x3. D L 386 1 0 0 3.49
+Ice cream. D L 560 1 0 0 3.99
+Chicken nuggets x7. K L 193 0 1 1 3.55
+Macaroni & cheese. K L 310 0 0 1 3.29
+Hot dog. K L 151 0 0 1 3.05
+Chilled tomato bisque. A D 83 1 0 0 4.25
+Cheeseburger eggrolls. A D 436 0 1 0 5.25
+Caprese salad. A D 250 1 0 0 4.35
+Prime rib and potatoes. E D 208 0 0 0 13.45
+Garlic butter baked salmon. E D 412 0 0 0 12.35
+Chopped Thai salad. E D 161 1 0 0 10.59
+Strawberry sponge cake. D D 84 1 0 0 7.55
+Apple crumble pie. D D 67 1 0 0 8.49
+Flourless chocolate cake. D D 94 1 1 0 9.37
+Spaghetti. K D 221 1 0 1 7.34
+French bread pizza. K D 819 1 0 1 8.20
+Chicken noddle soup. K D 87 0 1 1 7.99
