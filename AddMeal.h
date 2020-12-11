@@ -9,6 +9,7 @@
 #include<fstream>
 #include<string>
 #include<iomanip>
+#include<vector>
 using namespace std;
 
 class Dish {
@@ -359,14 +360,12 @@ void BrowseMenu(vector<Dish>, vector<Beverage>);
 void DisplayMenuF(vector<Dish>, vector<MealCart>&);
 vector<Dish> MealCourseFilter(vector<Dish>, int);
 void Courses(vector<Dish>, vector<MealCart>&);
-/*void Entrees(vector<Dish>, vector<MealCart>&);
-void Sides(vector<Dish>, vector<MealCart>&);
-void Dessert(vector<Dish>, vector<MealCart>&);
-void Kids(vector<Dish>, vector<MealCart>&);*/
 void DrinkMenu(vector<Beverage>, vector<MealCart>&);
 vector<Beverage> BuildDMenu(vector<Beverage>, int);
 void DisplayMenuD(vector<Beverage>, vector<MealCart>&);
-void ViewCart(vector<MealCart>);
+bool ValidateAge(Beverage);
+void ViewCart(vector<MealCart>&);
+void EditCart(vector<MealCart>&);
 double CalculateTotal(vector<MealCart>);
 void Checkout(vector<MealCart>);
 void PrintMenu(vector<Dish>);
@@ -959,15 +958,15 @@ void BrowseMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu)
 	{
 		cout << endl << setw(20) << right << "Add Meal to Flight/Hotel" << endl;
 		cout << "1. Add item" << endl;
-		cout << "2. View Cart" << endl;
-		cout << "3. Update Cart" << endl;
-		cout << "4. Checkout" << endl;
+		cout << "2. View/edit Cart" << endl;
+		cout << "3. Checkout" << endl;
+		cout << "Please select an option: ";
 		cin >> choice;
 		if (choice == 1)
 			OrderMenu(foodMenu, drinkMenu, cart);
 		else if (choice == 2)
 			ViewCart(cart);
-		else if (choice == 4)
+		else if (choice == 3)
 		{
 			cout << "Completing your order. Thank you!" << endl;
 			double total = CalculateTotal(cart);
@@ -1003,7 +1002,10 @@ void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCar
 			break;
 		}
 		if (choice == 4)
+		{
 			DrinkMenu(drinkMenu, cart);
+			break;
+		}
 		else if (choice == 0)
 			break;
 		else
@@ -1076,14 +1078,6 @@ void DisplayMenuF(vector<Dish> fMenu, vector<MealCart>& cart)
 		Courses(MealCourseFilter(fMenu, choice), cart);
 		return;
 	}
-	/*else if (choice == 2)
-		Entrees(fMenu, cart);
-	else if (choice == 3)
-		Sides(fMenu, cart);
-	else if (choice == 4)
-		Dessert(fMenu, cart);
-	else if (choice == 4)
-		Kids(fMenu, cart);*/
 	else
 		cerr << "Error. Invalid choice." << endl;
 }
@@ -1121,7 +1115,7 @@ vector<Dish> MealCourseFilter(vector<Dish> fMenu, int choice)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-10-20
+// LAST MODIFIED: 12-11-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
@@ -1131,7 +1125,15 @@ void Courses(vector<Dish> fMenu, vector<MealCart>& cart)
 	int choice = -1;
 	cout << endl;
 	for (int i = 0; i < fMenu.size(); i++)
-		cout << i + 1 << ". " << fMenu.at(i).GetName() << "    $" << setprecision(2) << fMenu.at(i).GetPrice() << endl;
+	{
+		cout << i + 1 << ". " << fMenu.at(i).GetName();
+		if (fMenu.at(i).GetGlu() == false)
+			cout << " (G)";
+		if (fMenu.at(i).GetVeg() == true)
+			cout << " (V)";
+		cout << "    $" << setprecision(2) << fMenu.at(i).GetPrice() << endl;
+	}
+	cout << "*(G) denotes Gluten Free" << endl << "*(V) Denotes Vegetarian" << endl;
 	if (fMenu.at(0).GetCourse() == 'A')
 		cout << "Order an appetizer by typing its number or type '0' to return: ";
 	else if (fMenu.at(0).GetCourse() == 'E')
@@ -1162,44 +1164,62 @@ void Courses(vector<Dish> fMenu, vector<MealCart>& cart)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
-// LAST MODIFIED: 12-10-20
+// LAST MODIFIED: 12-11-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
 void DrinkMenu(vector<Beverage> drinkMenu, vector<MealCart>& cart)
 {
-	int choice;
+	int choice = -1;
 	cout << setw(20) << right << "Drink Menu" << endl;
 	cout << "1. Soft Drinks" << endl;
 	cout << "2. Alcoholic Drinks (21+)" << endl;
 	cout << "0. Return" << endl;
 	cout << "Please choose a drink menu, or press '0' to return: ";
-	cin >> choice;
-	if (choice == 1 || choice == 2)
-		DisplayMenuD(BuildDMenu(drinkMenu, choice), cart);
+	while (choice == -1)
+	{
+		cin >> choice;
+		if (choice == 1 || choice == 2)
+		{
+			DisplayMenuD(BuildDMenu(drinkMenu, choice), cart);
+			break;
+		}
+		else if (choice == 0)
+			return;
+		else
+		{
+			cerr << "Error. Invalid selection." << endl;
+			choice = -1;
+		}
+	}
 }
 
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
-// LAST MODIFIED: 12-10-20
+// LAST MODIFIED: 12-11-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
 vector<Beverage> BuildDMenu(vector<Beverage> drinkMenu,int choice)
 {
-	vector<Beverage> filteredMenu;
-	if (choice == 1)
+	if (choice == 1 || choice == 2)
 	{
+		vector<Beverage> filteredMenu;
+		bool booze;
+		if (choice == 1)
+			booze = false;
+		else if (choice == 2)
+			booze = true;
+		else
+		{
+			cerr << "Error. BuildDMenu() should have never been called." << endl;
+			exit(0);
+		}
 		for (int i = 0; i < drinkMenu.size(); i++)
-			if (drinkMenu.at(i).GetAlcohol() == false)
+			if (drinkMenu.at(i).GetAlcohol() == booze)
 				filteredMenu.push_back(drinkMenu.at(i));
-	}
-	else if (choice == 2)
-	{
-		for (int i = 0; i < drinkMenu.size(); i++)
-			if (drinkMenu.at(i).GetAlcohol() == true)
-				filteredMenu.push_back(drinkMenu.at(i));
+		return filteredMenu;
 	}
 	else
 	{
@@ -1207,12 +1227,12 @@ vector<Beverage> BuildDMenu(vector<Beverage> drinkMenu,int choice)
 		system("pause");
 		exit(0);
 	}
-	return filteredMenu;
+
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
-// LAST MODIFIED: 12-10-20
+// LAST MODIFIED: 12-11-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
@@ -1231,10 +1251,10 @@ void DisplayMenuD(vector<Beverage> dMenu, vector<MealCart>& cart)
 		exit(0);
 	}
 	for (int i = 0; i < dMenu.size(); i++)
-		cout << i + 1 << ". " << dMenu.at(i).GetBevName() << "\t" << dMenu.at(i).GetPrice() << endl;
-	cout << "Order a beverage by typing its number or type '0' to return: ";
+		cout << i + 1 << ". " << dMenu.at(i).GetBevName() << "\t$" << setprecision(2) << fixed << dMenu.at(i).GetPrice() << endl;
 	while (choice == -1)
 	{
+		cout << "Order a beverage by typing its number or type '0' to return: ";
 		cin >> choice;
 		if (choice > 0 && choice < dMenu.size() + 1 && ValidateAge(dMenu.at(choice - 1)) == true)
 		{
@@ -1246,25 +1266,22 @@ void DisplayMenuD(vector<Beverage> dMenu, vector<MealCart>& cart)
 		else if (choice == 0)
 			break;
 		else
-		{
-			cerr << "Error. Please enter a valid choice." << endl;
 			choice = -1;
-		}
 	}
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
-// LAST MODIFIED: 12-10-20
+// LAST MODIFIED: 12-11-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION:
 bool ValidateAge(Beverage drink)
 {
-	bool age;
+	int age;
 	if (drink.GetAlcohol() == true)
 	{
-		cout << "Are you 21 years or older?";
+		cout << "Please enter your age: ";
 		cin >> age;
 		if (age < 21)
 		{
@@ -1283,21 +1300,71 @@ bool ValidateAge(Beverage drink)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-9-20
+// LAST MODIFIED: 12-11-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-void ViewCart(vector<MealCart> cart)
+void ViewCart(vector<MealCart>& cart)
 {
 	if (cart.empty() == true)
 		cout << "Cart is empty." << endl;
 	else
 	{
 		double total = 0;
+		int choice = -1;
+		cout << endl << setw(20) << right << "Cart" << endl;
 		cout << "Name \t Quantity \t Cost" << endl;
 		for (int i = 0; i < cart.size(); i++)
-			cout << cart[i].GetItemName() << "\t" << cart[i].GetQuantity() << "\t" << cart[i].GetItemCost() << endl;
+			cout << i + 1 << ". " << cart[i].GetItemName() << "\t" << cart[i].GetQuantity() << "\t" << cart[i].GetItemCost() << endl;
 		cout << "Total: $" << setprecision(2) << fixed << CalculateTotal(cart) << endl;
+		cout << "1. Remove items from cart" << endl;
+		cout << "0. Return" << endl;
+		while (choice == -1)
+		{
+			cout << "Please select an option: ";
+			cin >> choice;
+			if (choice == 0)
+				break;
+			else if (choice == 1)
+			{
+				EditCart(cart);
+				break;
+			}
+			else
+			{
+				cerr << "Error. Invalid selection." << endl;
+				choice = -1;
+			}
+		}
+
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-11-20
+// LAST MODIFIED: 12-11-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+void EditCart(vector<MealCart>& cart)
+{
+	int choice = -1;
+	while (choice == -1)
+	{
+		cout << "What would you like to remove from the cart (type 0 to cancel): ";
+		cin >> choice;
+		if (choice > 0 && choice < cart.size() + 1)
+		{
+			cout << "Removing " << cart.at(choice - 1).GetItemName() << " from the cart." << endl;
+			cart.erase (cart.begin() + choice - 1);
+		}
+		else if (choice == 0)
+			break;
+		else
+		{
+			cerr << "Error. Invalid selection." << endl;
+			choice = -1;
+		}
 	}
 }
 
