@@ -1,30 +1,12 @@
 #include "Trip.h"
 
-Trip::Trip() {
-	this->cost = 0;
-	this->bill.open("Bill.txt");
-	bill << "----------TRIP BILL----------\n";
-	bill << "Name: " << this->getFirstName() << " " << this->getLastName() << endl;
-	bill << "Card number: ";
-	for (int i = 0; i < this->getCardNumber().size(); i++) {
-		if (i > getCardNumber().size() - 4) {
-			bill << getCardNumber().at(i);
-		}
-		else {
-			bill << "X";
-		}
-	}
-	bill << endl << endl;
+Trip::Trip(Bill& b) {
+	this->bill = &b;
+}
 
-}
-Trip::~Trip() {
-	bill << "TOTAL: $" << cost;
-	bill.close();
-}
 void Trip::OneWay() {
 	system("cls");
 	cout << "ONEWAY FLIGHT: \n";
-	bill << "ONEWAY FLIGHT\n";
 	string city;
 	this->printCities();
 	cin.ignore();
@@ -43,21 +25,21 @@ void Trip::OneWay() {
 		cin >> filter;
 	} while (filter != '1' && filter != '2');
 	system("cls");
-
+	double cost;
 	if (filter == '1') {
-		this->cost = (double)this->flightPathRecommenderBasedOnCost();
+		cost = (double)this->flightPathRecommenderBasedOnCost();
 	}
 	else {
-		this->cost = (double)this->pathRecommendationBasedOnDistance() * 0.5;
+		cost = (double)this->pathRecommendationBasedOnDistance() * 0.5;
 	}
-	bill << "*" << this->getSourceCity() << " -> " << this->getDestinationCity() << " Price: $" << cost << endl;
 	cout << this->getSourceCity() << " -> " << this->getDestinationCity() << " Price: $" << cost << endl;
 	
+	bill->add(Item("ONE WAY FLIGHT " + this->getSourceCity() + "->" + this->getDestinationCity(), cost));
+	bill->printToFile("\t* ONE WAY FLIGHT " + this->getSourceCity() + "->" + this->getDestinationCity() + " BOOKED: $" + to_string(cost));
 }
 void Trip::RoundTrip() {
 	system("cls");
 	cout << "ROUND TRIP FLIGHT: \n";
-	bill << "ROUND TRIP FLIGHT: \n";
 	string city;
 	this->printCities();
 	cin.ignore();
@@ -76,20 +58,18 @@ void Trip::RoundTrip() {
 		cin >> filter;
 	} while (filter != '1' && filter != '2');
 	system("cls");
-	
+	double cost;
 	if (filter == '1') {
-		this->cost = (double)this->flightPathRecommenderBasedOnCost() * 2;
+		cost = (double)this->flightPathRecommenderBasedOnCost() * 2;
 	}
 	else {
-		this->cost = ((double)this->pathRecommendationBasedOnDistance() * 0.5) * 2;
+		cost = ((double)this->pathRecommendationBasedOnDistance() * 0.5) * 2;
 	}
 	cout << this->getSourceCity() << "->" << this->getDestinationCity() << " Price: $" << cost / 2 << endl;
 	cout << this->getDestinationCity() << "->" << this->getSourceCity() << " Price: $" << cost / 2 << endl;
 	cout << "TOTAL: $" << cost << endl;
-	bill << this->getSourceCity() << "->" << this->getDestinationCity() << this->getSourceCity() << " Price: $" << cost << endl;
-	
-	
-
+	bill->add(Item("ROUND TRIP FLIGHT " + this->getSourceCity() + "->" + this->getDestinationCity() + "->" + this->getSourceCity(), cost));
+	bill->printToFile("\t* ROUND TRIP FLIGHT " + this->getSourceCity() + "->" + this->getDestinationCity() + "->" + this->getSourceCity() + " BOOKED: $" + to_string(cost));
 }
 void Trip::TripPrompt() {
 	cout << "Is this trip one way or round trip?\n1) One Way.\n2) Round Trip.\n";

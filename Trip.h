@@ -1,15 +1,12 @@
 #pragma once
 #include "FlightRecommendation.h"
-#include <fstream>
+#include "Bill.h"
 class Trip : public FlightRecommendation {
 private:
-	ofstream bill;
-	double cost;
-	string ReturnCity;
+	Bill* bill;
 	void OneWay();
 	void RoundTrip();
 public:
-	Trip();
-	~Trip();
+	Trip(Bill&);
 	void TripPrompt();
 };

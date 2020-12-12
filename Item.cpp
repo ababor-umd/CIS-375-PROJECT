@@ -12,7 +12,7 @@ Item::Item() {
 	name = " ";
 }
 
-Item::Item(string description, int cost) {
+Item::Item(string description, double cost) {
 	price = cost;
 	name = description;
 }
@@ -21,6 +21,6 @@ string Item::getName() {
 	return name;
 }
 
-int Item::getPrice() {
+double Item::getPrice() {
 	return price;
 }

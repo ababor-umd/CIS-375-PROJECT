@@ -6,13 +6,13 @@ using namespace std;
 class Item {
 public:
 	Item();
-	Item(string, int);
-	int getPrice();
-	void setPrice(int);
+	Item(string, double);
+	double getPrice();
+	void setPrice(double);
 	string getName();
 	void setName();
 private:
-	int price;
+	double price;
 	string name;
 };
 #endif

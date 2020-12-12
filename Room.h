@@ -1,11 +1,12 @@
 #ifndef ROOM_H
 #define ROOM_H
 #include <string>
+#include "Bill.h"
 using namespace std;
 class Room {
 public:
-	int getPrice();
-	void setPrice(int);
+	double getPrice();
+	void setPrice(double);
 	bool getIsReserved();
 	void setIsreserved(bool);
 	char getReservationMarker();
@@ -14,11 +15,15 @@ public:
 	void setRoomNumber(string);
 	string getRoomType();
 	void setRoomType(string);
+	void setRoomAccom(int[]);
+	void accommodations(Bill*);
 	Room();
 	Room(string);
 	
 private:
-	int price;
+	double price;
+	int roomAccom[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };	//in order: wheel-in beds, pillows, sheets, towels, hand soap, 
+													//body wash & shampoo, toothbrush & toothpaste, water bottles
 	string roomNumber;
 	string roomType;
 	bool isReserved;

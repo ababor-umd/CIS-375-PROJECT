@@ -1,18 +1,22 @@
 #ifndef BILL_H
 #define BILL_H
 #include <vector>
-#include "Item.h";
+#include <fstream>
+#include "Item.h"
+#include "Payment.h"
 using namespace std;
-class Bill {
+class Bill: public Payment {
 public:
-	int getTotalCost();
+	ofstream outfile;
+	double getTotalCost();
 	void setTotalCost();
 	void add(Item);
 	Bill();
+	~Bill();
 	void print();
-
+	void printToFile(string);
 private:
-	int totalCost;
+	double totalCost;
 	vector<Item> items;
 };
 #endif

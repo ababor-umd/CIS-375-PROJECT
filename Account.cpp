@@ -166,7 +166,8 @@ string Account:: getEmail() {
 bool Account:: isPasswordValid(string password)
 {
      //length has to be at-least 6
-     if (password.length() < 6) return false;
+     if (password.length() < 6) 
+         return false;
 
      int numUpperCaseLetter = 0;
      int numLowerCaseLetter = 0;
@@ -184,7 +185,7 @@ bool Account:: isPasswordValid(string password)
           else if (isdigit(password[i])) {
                numOfDigits++;
           }
-          else if (password[i] == '@' || password[i] == '$' || password[i] == '%' || password[i] == '&') {
+          else if (password[i] == '@' || password[i] == '$' || password[i] == '%' || password[i] == '&' || password[i] == '!') {
                numSpeacialChar++;
           }
           else if (password[i] == ' ') {
@@ -198,10 +199,11 @@ bool Account:: isPasswordValid(string password)
      //if password contains atleast one speacial char (e.g. '$', '@', '%', '&')
      //then, it is valid password. Hence, we are returing true
      //else return false
-     if (numUpperCaseLetter >= 2 && numLowerCaseLetter >= 2 && numOfDigits >= 2 && numSpeacialChar >= 1 && numSpaces == 0) {
+     if (numUpperCaseLetter >= 1 && numLowerCaseLetter >= 2 && numOfDigits >= 1 && numSpeacialChar >= 1 && numSpaces == 0) {
           return true;
      }
-     else return false;
+     else 
+         return false;
 
 }
 

@@ -9,10 +9,13 @@ public:
 	void reserveRoom(string);
 	void cancelReservation(string);
 	void printRoomMap();
-	Hotel();
+	Hotel(Bill&);
 private:
+	Bill* bill;
 	const int FLOOR_NUM = 4;
 	const int ROOM_NUM = 4;
 	Room  rooms[4][4]; 
+	string validateIsDig(string);
+	void validateInput(int&, int&, string);
 };
 #endif

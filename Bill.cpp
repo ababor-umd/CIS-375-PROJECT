@@ -4,6 +4,8 @@
 using namespace std;
 Bill::Bill() {
 	totalCost = 0;
+	outfile.open("TRIP BILL.txt");
+	outfile << "-------------------------ITEMIZED TRIP BILL-------------------------" << endl;
 }
 
 void Bill::add(Item product) {
@@ -16,4 +18,11 @@ void Bill::print() {
 		cout << i << ". " << items.at(i).getName() << "\t\t" << items.at(i).getPrice() << endl;
 	}
 	cout << "Total Cost: " << totalCost << endl;
+}
+
+void Bill::printToFile(string item) {
+	outfile << item << endl;
+}
+Bill::~Bill() {
+	this->printToFile("TOTAL: $" + to_string(this->totalCost));
 }
