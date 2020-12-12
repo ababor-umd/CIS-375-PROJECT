@@ -1,3 +1,8 @@
+/*
+Author: Brannon Alcantar
+Date Created: December 6th, 2020
+*/
+
 #include <iostream>
 using namespace std;
 #include "Luggage.h"
@@ -29,7 +34,7 @@ int Luggage :: getBagWeight() { return bagWeight; }
 
 bool Luggage :: exceedsLimit() {
     if (bagWeight > weightLimit) {
-        printf("Baggage weight exceeds 50Ibs limit. Please enter a valid weight:");
+        cout << "Baggage weight exceeds 50Ibs limit. Please enter a valid weight!" << endl;
         return true;
     }
     else {
