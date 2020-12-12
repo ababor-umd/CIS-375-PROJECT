@@ -1,13 +1,13 @@
 #include <iostream>
-#include "Hotel.h";
-#include "Trip.h";
-#include "Bill.h";
-
+#include "Hotel.h"
+#include "Trip.h"
+#include "Bill.h"
+#include "AddMeal.h"
 using namespace std;
 
 //char Menu();
 void HotelMenu(Bill&, Hotel&);
-void flightMenu(Trip);
+void flightMenu(Trip, Bill&);
 void checkout(Bill&);
 
 int main() {
@@ -52,13 +52,13 @@ int main() {
 	cout << "Enter expiration MONTH on card (ex. if Jan enter 01 if Feb enter 02)" << endl;
 	trip.setExpirationDateOfCard();
 	cout << "CARD ADDED SUCCESSFULLY!" << endl;
-	bill.printToFile("Traveler: " + trip.getLastName() + ", " + trip.getFirstName() + "\nLast 4# of card: " + trip.getCardNumber().substr(trip.getCardNumber().size()-4, 4) + "\n");
+	bill.printToFile("Traveler: " + trip.getLastName() + ", " + trip.getFirstName() + "\nLast 4# of card: " + trip.getCardNumber().substr(trip.getCardNumber().size() - 4, 4) + "\n");
 	system("pause");
 	char choice;
 	bool running = true;
 	system("cls");
 	cout << "Welcome Vacation Reservation System " << endl;
-	while(running){
+	while (running) {
 		system("cls");
 		cout << "Please select an option: " << endl;
 		cout << "1. Hotel Module" << endl;
@@ -66,12 +66,12 @@ int main() {
 		cout << "3. Checkout " << endl;
 		cout << "4. Exit " << endl;
 		cin >> choice;
-		switch(choice){
+		switch (choice) {
 		case '1':
 			HotelMenu(bill, super8);
 			break;
 		case '2':
-			flightMenu(trip);
+			flightMenu(trip, bill);
 			break;
 		case '3':
 			checkout(bill);
@@ -83,10 +83,10 @@ int main() {
 		default:
 			cout << "Invalid option, please try again " << endl;
 			//cin >> choice;	
-	
+
 		}
 	}
-	
+
 
 
 
@@ -127,7 +127,7 @@ void HotelMenu(Bill& bill, Hotel& hotel) {
 						hotel.reserveRoom(roomNumber);
 					}
 				}
-				if (exitLoop) 
+				if (exitLoop)
 					break;
 			} while (true);
 			break;
@@ -157,7 +157,7 @@ void HotelMenu(Bill& bill, Hotel& hotel) {
 	}
 }
 
-void flightMenu(Trip trip){
+void flightMenu(Trip trip, Bill& bill) {
 	bool running = true;
 	while (running) {
 		char choice;
@@ -175,6 +175,7 @@ void flightMenu(Trip trip){
 		case '2':
 			break;
 		case '3':
+			AddMealModule(bill);
 			break;
 		case '4':
 			break;
@@ -190,8 +191,9 @@ void flightMenu(Trip trip){
 	}
 }
 
-void checkout(Bill& bill){
+void checkout(Bill& bill) {
 	cout << "Here is your current bill: " << endl;
 	bill.print();
+	system("pause");
 
 }
