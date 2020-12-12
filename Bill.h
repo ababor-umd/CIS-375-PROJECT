@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BILL_H
 #define BILL_H
 #include <vector>
@@ -5,7 +6,7 @@
 #include "Item.h"
 #include "Payment.h"
 using namespace std;
-class Bill: public Payment {
+class Bill/* : public Payment */{
 public:
 	ofstream outfile;
 	double getTotalCost();
@@ -20,3 +21,4 @@ private:
 	vector<Item> items;
 };
 #endif
+
