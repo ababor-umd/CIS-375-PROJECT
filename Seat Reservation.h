@@ -37,6 +37,8 @@ public:
 	//Method that sets selected seat to available by marking seat with an A.
 	void setAvailable();
 
+	char getAvailability(int row, int column);
+
 	//Setter method that accepts user input of either F - First Class, E - Economy, and B - Buisness.
 	void setFlightClass();
 
