@@ -96,7 +96,7 @@ string FlightRecommendation::getDestinationCity() {
 }
 
 void FlightRecommendation::printCities() {
-     cout << "Choose The Source city: " << endl;
+     //cout << "Choose The Source city: " << endl;
      for (int i = 0; i < this->city.size(); i++) {
           cout << i  << " => " << this->city[i] << endl;
      }

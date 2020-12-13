@@ -15,9 +15,9 @@ void Bill::add(Item product) {
 
 void Bill::print() {
 	for (int i = 0; i < items.size(); i++) {
-		cout << i << ". " << items.at(i).getName() << "\t\t" << items.at(i).getPrice() << endl;
+		cout << i + 1 << ". " << items.at(i).getName() << "\t\t" << "$" << items.at(i).getPrice() << endl;
 	}
-	cout << "Total Cost: " << totalCost << endl;
+	cout << "Total Cost: $" << totalCost << endl;
 }
 
 void Bill::printToFile(string item) {

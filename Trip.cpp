@@ -9,11 +9,13 @@ void Trip::OneWay() {
 	cout << "ONEWAY FLIGHT: \n";
 	string city;
 	this->printCities();
+	cout << "Enter source city: ";
 	cin.ignore();
 	getline(cin, city);
 	this->setSourceCity(city);
 	system("cls");
 	this->printCities();
+	cout << "Enter destination city: ";
 	//cin.ignore();
 	getline(cin, city);
 	this->setDestinationCity(city);
@@ -42,11 +44,13 @@ void Trip::RoundTrip() {
 	cout << "ROUND TRIP FLIGHT: \n";
 	string city;
 	this->printCities();
+	cout << "Enter source city: ";
 	cin.ignore();
 	getline(cin, city);
 	this->setSourceCity(city);
 	system("cls");
 	this->printCities();
+	cout << "Enter destination city: ";
 	//cin.ignore();
 	getline(cin, city);
 	this->setDestinationCity(city);

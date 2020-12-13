@@ -7,7 +7,7 @@ Date Created: December 9th, 2020
 using namespace std;
 #include "Seat Reservation.h"
 
-SeatMap :: SeatMap() {
+SeatMap::SeatMap() {
 	seatRow = 0;
 	seatColumn = 0;
 	firstLength = 10;
@@ -16,7 +16,7 @@ SeatMap :: SeatMap() {
 	seatCost = 0;
 }
 
-void SeatMap :: presetMap() {
+void SeatMap::presetMap() {
 	for (int i = 0; i < firstLength; i++) {
 		for (int j = 0; j < secondLength; j++) {
 			map[i][j] = 'A';
@@ -24,7 +24,7 @@ void SeatMap :: presetMap() {
 	}
 }
 
-void SeatMap :: displayMap() {
+void SeatMap::displayMap() {
 	cout << "____________________" << endl;
 	cout << "   1 2 3     4 5 6        " << endl;
 	cout << " 1 " << map[0][0] << " " << map[0][1] << " " << map[0][2] << "     " << map[0][3] << " " << map[0][4] << " " << map[0][5] << endl;
@@ -43,36 +43,37 @@ void SeatMap :: displayMap() {
 }
 
 
-void SeatMap :: selectSeat(int row, int column) {
+void SeatMap::selectSeat(int row, int column) {
 	row = seatRow;
 	column = seatColumn;
 }
 
-void SeatMap :: setUnavailable(int row, int column) {
+void SeatMap::setUnavailable(int row, int column) {
 	row = row - 1;
 	column = column - 1;
 	map[row][column] = 'U';
 }
 
-void SeatMap :: setAvailable() {
+void SeatMap::setAvailable() {
 	int row = seatRow - 1;
 	int column = seatColumn - 1;
 	map[row][column] = 'A';
 }
 
-char SeatMap :: getAvailability(int row, int column) {
+char SeatMap::getAvailability(int row, int column) {
 	row = row - 1;
 	column = column - 1;
 	return map[row][column];
 }
 
-void SeatMap :: setFlightClass() {
+void SeatMap::setFlightClass() {
 	char flightC;
 	cout << "Select a Class: " << endl;
 	cout << "E - Economy" << endl;
 	cout << "B - Buisiness" << endl;
 	cout << "F = First" << endl;
 	cin >> flightC;
+	flightC = toupper(flightC);
 	while (flightC != 'F' && flightC != 'B' && flightC != 'E') {
 		cout << "Invalid Class selected, please select a valid class from options above: " << endl;
 		cin >> flightC;
@@ -80,11 +81,11 @@ void SeatMap :: setFlightClass() {
 	flightClass = flightC;
 }
 
-char SeatMap :: getFlightClass() {
+char SeatMap::getFlightClass() {
 	return flightClass;
 }
 
-bool SeatMap :: validClass(int row) {
+bool SeatMap::validClass(int row) {
 	switch (flightClass) {
 	case 'F':
 		if (row != 1 && row != 2 && row != 3) {
@@ -106,7 +107,7 @@ bool SeatMap :: validClass(int row) {
 	}
 }
 
-void SeatMap :: calculateCost() {
+void SeatMap::calculateCost() {
 	if (flightClass == 'F') {
 		seatCost = seatCost + 1350.0;
 	}
@@ -118,6 +119,6 @@ void SeatMap :: calculateCost() {
 	}
 }
 
-double SeatMap :: getTotal() {
+double SeatMap::getTotal() {
 	return seatCost;
 }

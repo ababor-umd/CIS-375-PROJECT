@@ -5,6 +5,7 @@ Date Created: December 9th, 2020
 
 #pragma once
 #include <iostream>
+
 using namespace std;
 
 
@@ -37,7 +38,7 @@ public:
 	//Method that sets selected seat to available by marking seat with an A.
 	void setAvailable();
 
-	char getAvailability(int row, int column);
+	char getAvailability(int, int);
 
 	//Setter method that accepts user input of either F - First Class, E - Economy, and B - Buisness.
 	void setFlightClass();

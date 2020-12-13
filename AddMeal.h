@@ -961,18 +961,24 @@ void AddMealModule(Bill& littleBill)
 	int choice = -1;
 	while (choice != 3)
 	{
+		system("cls");
 		cout << endl << setw(37) << right << "Add Meal to Flight/Hotel" << endl;
 		cout << "1. Add item" << endl;
 		cout << "2. View/edit Cart" << endl;
 		cout << "3. Checkout" << endl;
 		cout << "Please select an option: ";
 		cin >> choice;
-		if (choice == 1)
+		if (choice == 1) {
+			system("cls");
 			OrderMenu(foodMenu, drinkMenu, cart);
-		else if (choice == 2)
+		}
+		else if (choice == 2) {
+			system("cls");
 			ViewCart(cart);
+		}
 		else if (choice == 3)
 		{
+			system("cls");
 			Checkout(cart, littleBill);
 			/*cout << "Completing your order. Thank you!" << endl;
 			double total = CalculateTotal(cart);
@@ -1004,11 +1010,13 @@ void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCar
 		cin >> choice;
 		if (choice == 1 || choice == 2 || choice == 3)
 		{
+			system("cls");
 			DisplayMenuF(BuildFMenu(choice, foodMenu), cart);
 			break;
 		}
 		if (choice == 4)
 		{
+			system("cls");
 			DrinkMenu(drinkMenu, cart);
 			break;
 		}
@@ -1071,18 +1079,21 @@ void DisplayMenuF(vector<Dish> fMenu, vector<MealCart>& cart)
 		system("pause");
 		exit(0);
 	}
-	cout << "1. Appetizers" << endl;
-	cout << "2. Main Entrees" << endl;
-	cout << "3. Sides" << endl;
-	cout << "4. Dessert" << endl;
-	cout << "5. Kids" << endl;
-	cout << "0. Return" << endl;
+
 	while (choice == -1)
 	{
+		system("cls");
+		cout << "1. Appetizers" << endl;
+		cout << "2. Main Entrees" << endl;
+		cout << "3. Sides" << endl;
+		cout << "4. Dessert" << endl;
+		cout << "5. Kids" << endl;
+		cout << "0. Return" << endl;
 		cout << "Please select a section to order from: ";
 		cin >> choice;
 		if (choice < 5 && choice > 0)
 		{
+			system("cls");
 			Courses(MealCourseFilter(fMenu, choice), cart);
 			return;
 		}
@@ -1200,16 +1211,19 @@ void Courses(vector<Dish> fMenu, vector<MealCart>& cart)
 void DrinkMenu(vector<Beverage> drinkMenu, vector<MealCart>& cart)
 {
 	int choice = -1;
-	cout << setw(20) << right << "Drink Menu" << endl;
-	cout << "1. Soft Drinks" << endl;
-	cout << "2. Alcoholic Drinks (21+)" << endl;
-	cout << "0. Return" << endl;
-	cout << "Please choose a drink menu, or press '0' to return: ";
+
 	while (choice == -1)
 	{
+		system("cls");
+		cout << setw(20) << right << "Drink Menu" << endl;
+		cout << "1. Soft Drinks" << endl;
+		cout << "2. Alcoholic Drinks (21+)" << endl;
+		cout << "0. Return" << endl;
+		cout << "Please choose a drink menu, or press '0' to return: ";
 		cin >> choice;
 		if (choice == 1 || choice == 2)
 		{
+			system("cls");
 			DisplayMenuD(BuildDMenu(drinkMenu, choice), cart);
 			break;
 		}
@@ -1222,7 +1236,6 @@ void DrinkMenu(vector<Beverage> drinkMenu, vector<MealCart>& cart)
 		}
 	}
 }
-
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
@@ -1341,22 +1354,25 @@ void ViewCart(vector<MealCart>& cart)
 	{
 		double total = 0;
 		int choice = -1;
-		cout << endl << setw(20) << right << "Cart" << endl;
-		cout << "Name" << setw(25) << right <<  "Quantity" << setw(20) << right << "Cost" << endl;
-		for (int i = 0; i < cart.size(); i++)
-			cout << i + 1 << ". " << cart[i].GetItemName() << setw(10) << right << cart[i].GetQuantity() << setw(20) << right << "$" << cart[i].GetItemCost() << endl;
-		cout << "Total: $" << setprecision(2) << fixed << CalculateTotal(cart) << endl << endl;
-		cout << "Options" << endl;
-		cout << "1. Remove items from cart" << endl;
-		cout << "0. Return" << endl;
-		while (choice == -1)
+
+		while(choice == -1)
 		{
+			system("cls");
+			cout << endl << setw(20) << right << "Cart" << endl;
+			cout << "Name" << setw(25) << right << "Quantity" << setw(20) << right << "Cost" << endl;
+			for (int i = 0; i < cart.size(); i++)
+				cout << i + 1 << ". " << cart[i].GetItemName() << setw(10) << right << cart[i].GetQuantity() << setw(20) << right << "$" << cart[i].GetItemCost() << endl;
+			cout << "Total: $" << setprecision(2) << fixed << CalculateTotal(cart) << endl << endl;
+			cout << "Options" << endl;
+			cout << "1. Remove items from cart" << endl;
+			cout << "0. Return" << endl;
 			cout << "Please select an option: ";
 			cin >> choice;
 			if (choice == 0)
 				break;
 			else if (choice == 1)
 			{
+				//system("cls");
 				EditCart(cart);
 				break;
 			}
@@ -1426,6 +1442,7 @@ void Checkout(vector<MealCart> cart, Bill& littleBill)
 	double total = CalculateTotal(cart);
 	cout << "Adding $" << setprecision(2) << fixed << total << " to the account bill." << endl;
 	littleBill.add(Item("food and drink", total));
+	littleBill.printToFile("\tFOOD AND DRINKS: $" + to_string(total));
 	system("pause");
 }
 
