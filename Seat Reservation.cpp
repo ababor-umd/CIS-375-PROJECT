@@ -60,6 +60,12 @@ void SeatMap :: setAvailable() {
 	map[row][column] = 'A';
 }
 
+char SeatMap :: getAvailability(int row, int column) {
+	row = row - 1;
+	column = column - 1;
+	return map[row][column];
+}
+
 void SeatMap :: setFlightClass() {
 	char flightC;
 	cout << "Select a Class: " << endl;
