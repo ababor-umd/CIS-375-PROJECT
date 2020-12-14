@@ -18,6 +18,9 @@ Shrimp cocktail. A L 140 0 1 0 7.59
 Cheeseburger. E L 303 0 0 0 8.09
 Veggie Pita Wrap. E L 280 1 0 0 6.69
 Yardbird. E L 357 0 1 0 13.59
+Potato Chips. S L 160 1 0 0 2.49
+Trail mix. S L 693 1 0 0 2.15
+Potato salad. S L 357 1 0 0 3.19
 Pudding cup. D L 340 1 1 0 2.58
 Cookies x3. D L 386 1 0 0 3.49
 Ice cream. D L 560 1 0 0 3.99
