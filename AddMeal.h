@@ -1391,7 +1391,7 @@ void ViewCart(vector<MealCart>& cart)
 		int choice = -1;
 		cout << endl << setw(20) << right << "Cart" << endl;
 		for (int i = 0; i < cart.size(); i++)														//For loop that iterates through the cart and displays the item name and cost.
-			cout << i + 1 << ". " << cart[i].GetItemName() << " (Qua: " << cart[i].GetQuantity() << ")  $" << cart[i].GetItemCost() << endl;
+			cout << i + 1 << ". " << cart[i].GetItemName() << " (Qty: " << cart[i].GetQuantity() << ")  $" << cart[i].GetItemCost() << endl;
 		cout << "Total: $" << setprecision(2) << fixed << CalculateTotal(cart) << endl << endl;		//Function call to display the total.
 		cout << "Options" << endl;
 		cout << "1. Remove items from cart" << endl;
