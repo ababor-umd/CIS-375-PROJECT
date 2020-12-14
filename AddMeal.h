@@ -1,8 +1,8 @@
 /*
 *Author: Ethan Puschell
 *Creation Date: 12-7-20
-*Modification Date: 12-8-20
-*Purpose: Class file for the AddMeal module of the program.
+*Modification Date: 12-13-20
+*Purpose: Header file for the AddMeal module for the Flight Recommendation program. Contains all of the classes and functions for ordering a meal for the flight.
 */
 #pragma once
 #include<iostream>
@@ -13,6 +13,7 @@
 #include "Bill.h"
 using namespace std;
 
+/*Dish class will contain the information for the food on the menu.*/
 class Dish {
 private:
 	string dishName;
@@ -25,6 +26,7 @@ private:
 	double price;
 public:
 
+	/*Setter function for all of the variables within the private data members.*/
 	void SetDish(string newName, char newCourse, char newDishTime, int newCal, bool isVeg, bool isGlu, bool forKidz, double newPrice)
 	{
 		dishName = newName;
@@ -37,6 +39,7 @@ public:
 		price = newPrice;
 	}
 
+	/*Setter and getter functions for each of the private data members of Dish class.*/
 	void SetName(string newName)
 	{
 		dishName = newName;
@@ -96,9 +99,9 @@ public:
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: None.
+// OUTPUT: Print out of the dish and all of its attributes.
+// DESCRIPTION: Function prints out the Dish and all of its attributes.
 	void PrintDish()
 	{
 		cout << "Dish name: " << dishName << endl << "Course: ";
@@ -168,6 +171,7 @@ public:
 	}
 };
 
+/*Beverage class that will be used for each drink on the menu.*/
 class Beverage
 {
 private:
@@ -182,6 +186,7 @@ private:
 
 public:
 
+	/*Setter function for each of the private data members of Beverage.*/
 	void SetBeverage(string newName, bool isBooze, double newABV, bool isHot, bool isBubbly, bool wakeUp, bool wuTang, double newPrice)
 	{
 		bevName = newName;
@@ -194,6 +199,7 @@ public:
 		price = newPrice;
 	}
 
+	/*Getter and setter functions for each of the individual private data members for Beverage.*/
 	void SetBevName(string newName)
 	{
 		bevName = newName;
@@ -250,6 +256,7 @@ public:
 
 	const double GetPrice() { return price; }
 
+	/*Prints out all of the data members for the Beverage.*/
 	void PrintBev()
 	{
 		cout << "Name: " << bevName << endl << "Alcohol: ";
@@ -301,6 +308,7 @@ public:
 	}
 };
 
+/*MealCart will be used to store the Dishes and Beverages that the user will order.*/
 class MealCart
 {
 private:
@@ -308,6 +316,7 @@ private:
 	int quantity;
 	double itemCost;
 public:
+	/*Setter function for all of the private data members for MealCart.*/
 	void SetItem(string newiN, double newCost, int newQ)
 	{
 		itemName = newiN;
@@ -315,6 +324,7 @@ public:
 		quantity = newQ;
 	}
 
+	/*Getter and setter functions for each of the individual private data members for MealCart.*/
 	void SetItemName(string newiN)
 	{
 		itemName = newiN;
@@ -337,6 +347,7 @@ public:
 	const int GetQuantity() { return quantity; }
 };
 
+/*Function declarations for alll of the functions that are utilized to allow the user to order food and drinks and for the admin to add items to the menu.*/
 void FillFoodMenu(vector<Dish>&);
 void FillDrinkMenu(vector<Beverage>&);
 void FCourse(Dish&);
@@ -361,12 +372,14 @@ void AddMealModule(Bill&);
 void DisplayMenuF(vector<Dish>, vector<MealCart>&);
 vector<Dish> MealCourseFilter(vector<Dish>, int);
 void Courses(vector<Dish>, vector<MealCart>&);
+void UpdateMealCart(vector<MealCart>&, MealCart);
 void DrinkMenu(vector<Beverage>, vector<MealCart>&);
 vector<Beverage> BuildDMenu(vector<Beverage>, int);
 void DisplayMenuD(vector<Beverage>, vector<MealCart>&);
 bool ValidateAge(Beverage);
 void ViewCart(vector<MealCart>&);
 void EditCart(vector<MealCart>&);
+void RemoveFromMealCart(vector<MealCart>&, int);
 double CalculateTotal(vector<MealCart>);
 void Checkout(vector<MealCart>, Bill&);
 void PrintMenu(vector<Dish>);
@@ -374,9 +387,9 @@ void PrintMenu(vector<Dish>);
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Text file.
+// OUTPUT: Vector containing the Food menu.
+// DESCRIPTION: Function reads in a .txt file and uses it to fill a vector of type Dish that the user may view and order from.
 void FillFoodMenu(vector<Dish>& foodMenu)
 {
 	ifstream ifs;
@@ -398,8 +411,8 @@ void FillFoodMenu(vector<Dish>& foodMenu)
 	Dish newDish;
 	while (!ifs.eof())
 	{
-		getline(ifs, newName, '.');
-		if (newName.substr(0, 1) == "\n")
+		getline(ifs, newName, '.');				//Dish names end with a period to allow for items with multiple words.
+		if (newName.substr(0, 1) == "\n")		//This stops the function from reading in the endline and adding it to the front of the Dish name.
 			newName.erase(0, 1);
 		ifs >> newCourse >> newDishTime >> newCal >> isVeg >> isGlu >> wuTang >> newPrice;
 		newDish.SetDish(newName, newCourse, newDishTime, newCal, isVeg, isGlu, wuTang, newPrice);
@@ -415,9 +428,9 @@ void FillFoodMenu(vector<Dish>& foodMenu)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Data members for Dish by user.
+// OUTPUT: Creation of Dish for menu.
+// DESCRIPTION: Function allows administrator to manually enter items to the food menu.
 void EnterFood(vector<Dish>& foodMenu)
 {
 	Dish newDish;
@@ -428,7 +441,7 @@ void EnterFood(vector<Dish>& foodMenu)
 	cout << "Enter the dish name: ";
 	getline(cin, newName);
 	newDish.SetName(newName);
-	FCourse(newDish);
+	FCourse(newDish);			//Function calls that will handle the users input for each of the data members for Dish.
 	FTime(newDish);
 	FCal(newDish);
 	FVeg(newDish);
@@ -444,6 +457,7 @@ void EnterFood(vector<Dish>& foodMenu)
 		if (toupper(validate[0]) == 'Y')
 		{
 			foodMenu.push_back(newDish);
+			break;
 		}
 		if (toupper(validate[0]) == 'N')
 		{
@@ -465,6 +479,7 @@ void EnterFood(vector<Dish>& foodMenu)
 					cout << "Enter the dish name: ";
 					getline(cin, newName);
 					newDish.SetName(newName);
+					break;
 				}
 				else if (choice == 2)
 					newDish.SetName(newName);
@@ -492,9 +507,9 @@ void EnterFood(vector<Dish>& foodMenu)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Text file.
+// OUTPUT: Filled out Drink menu.
+// DESCRIPTION: Function reads in .txt file and populates the drink menu with it.
 void FillDrinkMenu(vector<Beverage>& drinkMenu)
 {
 	ifstream ifs;
@@ -532,9 +547,9 @@ void FillDrinkMenu(vector<Beverage>& drinkMenu)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: User input for private data members.
+// OUTPUT: Beverage added to drink menu.
+// DESCRIPTION: Function allows admin to manually enter items to be added to the drink menu.
 void EnterDrink(vector<Beverage>& drinkMenu)
 {
 	Beverage newDrink;
@@ -544,10 +559,10 @@ void EnterDrink(vector<Beverage>& drinkMenu)
 	getline(cin, newName);
 	newDrink.SetBevName(newName);
 	BevAlcohol(newDrink);
-	if (newDrink.GetAlcohol() == true)
+	if (newDrink.GetAlcohol() == true)		//If the drink is alcoholic, then we prompt the admin to enter the ABV.
 		BevABV(newDrink);
 	else
-		newDrink.SetABV(0);
+		newDrink.SetABV(0);					//Otherwise, the ABV will be manually set to 0.
 	BevHot(newDrink);
 	BevBubbly(newDrink);
 	BevCaffeine(newDrink);
@@ -583,6 +598,7 @@ void EnterDrink(vector<Beverage>& drinkMenu)
 					cout << "Enter the drink name: ";
 					getline(cin, newName);
 					newDrink.SetBevName(newName);
+					break;
 				}
 				else if (choice == 2)
 					BevAlcohol(newDrink);
@@ -610,9 +626,9 @@ void EnterDrink(vector<Beverage>& drinkMenu)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Course.
+// OUTPUT: None.
+// DESCRIPTION: Function allows admin to enter the course for the Dish.
 void FCourse(Dish& newDish)
 {
 	string getCourse = "N";
@@ -639,9 +655,9 @@ void FCourse(Dish& newDish)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Meal time.
+// OUTPUT: None.
+// DESCRIPTION: Function allows admin to enter the meal time for the Dish.
 void FTime(Dish& newDish)
 {
 	string dishTime = "N";
@@ -666,9 +682,9 @@ void FTime(Dish& newDish)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Calories.
+// OUTPUT: None.
+// DESCRIPTION: Function allows admin to manually enter the calories for the item.
 void FCal(Dish& newDish)
 {
 	int newCal = -1;
@@ -686,9 +702,9 @@ void FCal(Dish& newDish)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Vegetarian.
+// OUTPUT: None.
+// DESCRIPTION: Function allows the admin to manually enter whether or not the Dish is vegetarian.
 void FVeg(Dish& newDish)
 {
 	int isVeg = -1;
@@ -711,9 +727,9 @@ void FVeg(Dish& newDish)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Gluten.
+// OUTPUT: None.
+// DESCRIPTION: Function allows the admin to manually enter whether or not the Dish contains gluten.
 void FGlu(Dish& newDish)
 {
 	int isGlu = -1;
@@ -736,9 +752,9 @@ void FGlu(Dish& newDish)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Kids.
+// OUTPUT: None.
+// DESCRIPTION: Function allows the admin to manually enter whether or not the Dish is a Kids item.
 void FKids(Dish& newDish)
 {
 	int wuTang = -1;
@@ -761,9 +777,9 @@ void FKids(Dish& newDish)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Price.
+// OUTPUT: None.
+// DESCRIPTION: Function allows the admin to manually enter the price of the Dish.
 void FPrice(Dish& newDish)
 {
 	double newPrice = -1;
@@ -781,9 +797,9 @@ void FPrice(Dish& newDish)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Alcohol.
+// OUTPUT: None.
+// DESCRIPTION: Function allows the admin to manually enter whether or not the Beverage is alcoholic.
 void BevAlcohol(Beverage& newDrink)
 {
 	int isBooze = -1;
@@ -806,32 +822,32 @@ void BevAlcohol(Beverage& newDrink)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Alcohol by Volume.
+// OUTPUT: None.
+// DESCRIPTION: Function allows the admin to manually enter the ABV for the drink (0 if non-alcholic).
 void BevABV(Beverage& newDrink)
 {
 	double newABV = -1.0;
-	cout << "Enter ABV (Alcohol By Volume) for drink: ";
 	while (newABV > 0)
 	{
+		cout << "Enter ABV (Alcohol By Volume) for drink: ";
 		cin >> newABV;
-		if (newABV > 0)
+		if (newABV > 0)					//If admin enters that the Beverage contains no alcohol.
 		{
 			newDrink.SetABV(newABV);
-			newDrink.SetAlcohol(true);
+			newDrink.SetAlcohol(true);	//Not only to we set the ABV to 0, but also 
 		}
 		else
-			cerr << "Error. If the drink is alcoholic there must be an ABV." << endl;
+			cerr << "Error. If drink is alcoholic it must have an ABV greater than 0%." << endl;
 	}
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Hot.
+// OUTPUT: None.
+// DESCRIPTION: Function allows user to enter whether or not the drink is hot or not.
 void BevHot(Beverage& newDrink)
 {
 	int newHot = -1;
@@ -854,9 +870,9 @@ void BevHot(Beverage& newDrink)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Carbonated.
+// OUTPUT: None.
+// DESCRIPTION: Function allows admin to enter whether or not the drink is carbonated or not.
 void BevBubbly(Beverage& newDrink)
 {
 	int isBubbly = -1;
@@ -879,9 +895,9 @@ void BevBubbly(Beverage& newDrink)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Caffeine.
+// OUTPUT: None.
+// DESCRIPTION: Function allows admin to enter whether or not the Beverage contains caffeine.
 void BevCaffeine(Beverage& newDrink)
 {
 	int wakeUp = -1;
@@ -928,9 +944,9 @@ void BevKids(Beverage& newDrink)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Price.
+// OUTPUT: None.
+// DESCRIPTION: Function allows admin to enter the price for the Beverage.
 void BevPrice(Beverage& newDrink)
 {
 	double newPrice = -1;
@@ -948,42 +964,31 @@ void BevPrice(Beverage& newDrink)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Bill and user's input.
+// OUTPUT: The total bill for food and drink back to the main program.
+// DESCRIPTION: This is the main function call that will bring the user into the AddMeal module and allow them to fully interact with the menus and their cart.
 void AddMealModule(Bill& littleBill)
 {
-	vector<Dish> foodMenu;
-	vector<Beverage> drinkMenu;
-	vector<MealCart> cart;
-	FillFoodMenu(foodMenu);
-	FillDrinkMenu(drinkMenu);
+	vector<Dish> foodMenu;				//Declaring vector of type Dish for the food menu.
+	vector<Beverage> drinkMenu;			//Function declaration of type Beverage for the drinks menu.
+	vector<MealCart> cart;				//Function declaration of type MealCart for the user's cart.
+	FillFoodMenu(foodMenu);				//Function call that will populate the food menu with the Food.txt file.
+	FillDrinkMenu(drinkMenu);			//Function call that will populate the drink menu with the Drinks.txt file.
 	int choice = -1;
-	while (choice != 3)
+	while (choice != 3)					//While loop that will iterate until the user chooses to check out.
 	{
-		system("cls");
 		cout << endl << setw(37) << right << "Add Meal to Flight/Hotel" << endl;
-		cout << "1. Add item" << endl;
+		cout << "1. Add item(s)" << endl;
 		cout << "2. View/edit Cart" << endl;
 		cout << "3. Checkout" << endl;
 		cout << "Please select an option: ";
 		cin >> choice;
-		if (choice == 1) {
-			system("cls");
-			OrderMenu(foodMenu, drinkMenu, cart);
-		}
-		else if (choice == 2) {
-			system("cls");
-			ViewCart(cart);
-		}
+		if (choice == 1)
+			OrderMenu(foodMenu, drinkMenu, cart);					//Function call that will allow the user to order food and drinks off the menus.
+		else if (choice == 2)
+			ViewCart(cart);											//Function call that will allow the user to view and edit their cart.
 		else if (choice == 3)
-		{
-			system("cls");
-			Checkout(cart, littleBill);
-			/*cout << "Completing your order. Thank you!" << endl;
-			double total = CalculateTotal(cart);
-			cout << "Adding $" << setprecision(2) << fixed << total << " to the account bill." << endl;*/
-		}
+			Checkout(cart, littleBill);								//Function call that will complete the user's order and return the total to the Bill class.
 		else
 			cerr << "Error. Please enter a valid option." << endl;
 	}
@@ -992,9 +997,9 @@ void AddMealModule(Bill& littleBill)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-8-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: User's input.
+// OUTPUT: Menu by meal time.
+// DESCRIPTION: Function allows user to add food and drink items to their cart.
 void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCart>& cart)
 {
 	int choice = -1;
@@ -1010,14 +1015,12 @@ void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCar
 		cin >> choice;
 		if (choice == 1 || choice == 2 || choice == 3)
 		{
-			system("cls");
-			DisplayMenuF(BuildFMenu(choice, foodMenu), cart);
-			break;
+			DisplayMenuF(BuildFMenu(choice, foodMenu), cart);		//Single function call that will allow the user to order food based on the selected meal time menu.
+			break;													//This is done with the BuildFMenu that will filter the menu based on the menu selected.
 		}
 		if (choice == 4)
 		{
-			system("cls");
-			DrinkMenu(drinkMenu, cart);
+			DrinkMenu(drinkMenu, cart);								//Function call for the drinks menu.
 			break;
 		}
 		else if (choice == 0)
@@ -1033,14 +1036,14 @@ void OrderMenu(vector<Dish> foodMenu, vector<Beverage> drinkMenu, vector<MealCar
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
 // LAST MODIFIED: 12-10-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: User choice.
+// OUTPUT: None.
+// DESCRIPTION: Function filters the food menu based on the meal time menu selected by the user.
 vector<Dish> BuildFMenu(int choice, vector<Dish> foodMenu)
 {
-	vector<Dish> fMenu;
-	char c;
-	if (choice == 1)
+	vector<Dish> fMenu;		//Function declaration for the filtered menu that will be returned to the DisplayMenuF() function.
+	char c;					//Character c that will contain the meal time the user selected.
+	if (choice == 1)		//Depending on the user's choice from OrderMenu(), we set c to that specific meal time.
 		c = 'B';
 	else if (choice == 2)
 		c = 'L';
@@ -1052,23 +1055,23 @@ vector<Dish> BuildFMenu(int choice, vector<Dish> foodMenu)
 		system("pause");
 		exit(0);
 	}
-	for (int i = 0; i < foodMenu.size(); i++)
-		if (foodMenu.at(i).GetDT() == c)
-			fMenu.push_back(foodMenu.at(i));
-	return fMenu;
+	for (int i = 0; i < foodMenu.size(); i++)		//For loop that iterates through each Dish in the food menu.
+		if (foodMenu.at(i).GetDT() == c)			//If the Dish's meal time equals c
+			fMenu.push_back(foodMenu.at(i));		//Then we push that Dish into the filtered menu.
+	return fMenu;									//Return the vector of all of the menu items that match the users selection.
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-8-20
 // LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: User selection.
+// OUTPUT: Menu by course or kids menu.
+// DESCRIPTION: Function allows user to choose which course menu they wish to order from the meal time they selected from OrderMenu().
 void DisplayMenuF(vector<Dish> fMenu, vector<MealCart>& cart)
 {
 	int choice = -1;
-	if (fMenu.at(0).GetDT() == 'B')
-		cout << endl << setw(20) << right << "Breakfast Menu" << endl;
+	if (fMenu.at(0).GetDT() == 'B')											//If statement block that looks at the meal time of the first item in the fMenu vector.
+		cout << endl << setw(20) << right << "Breakfast Menu" << endl;		//If it matches any of the 3 meal times, then clearly the filtered menu is of that meal time type.
 	else if (fMenu.at(0).GetDT() == 'L')
 		cout << endl << setw(20) << right << "Lunch Menu" << endl;
 	else if (fMenu.at(0).GetDT() == 'D')
@@ -1079,25 +1082,22 @@ void DisplayMenuF(vector<Dish> fMenu, vector<MealCart>& cart)
 		system("pause");
 		exit(0);
 	}
-
-	while (choice == -1)
+	cout << "1. Appetizers" << endl;
+	cout << "2. Main Entrees" << endl;
+	cout << "3. Sides" << endl;
+	cout << "4. Dessert" << endl;
+	cout << "5. Kids" << endl;
+	cout << "0. Return" << endl;
+	while (choice == -1)									//While loop that iterates until the user makes a valid selection.
 	{
-		system("cls");
-		cout << "1. Appetizers" << endl;
-		cout << "2. Main Entrees" << endl;
-		cout << "3. Sides" << endl;
-		cout << "4. Dessert" << endl;
-		cout << "5. Kids" << endl;
-		cout << "0. Return" << endl;
 		cout << "Please select a section to order from: ";
 		cin >> choice;
-		if (choice < 5 && choice > 0)
+		if (choice < 5 && choice > 0)						//If the user chooses one of the course types (or kids menu).
 		{
-			system("cls");
-			Courses(MealCourseFilter(fMenu, choice), cart);
-			return;
+			Courses(MealCourseFilter(fMenu, choice), cart);		//Function call for Courses that will display all of the items in that course menu.
+			return;												//This is done with MealCourseFilter that will further filter the menu by course type selected.
 		}
-		else if (choice == 0)
+		else if (choice == 0)								//If the user wants to return, simply return.
 			return;
 		else
 		{
@@ -1110,13 +1110,13 @@ void DisplayMenuF(vector<Dish> fMenu, vector<MealCart>& cart)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
 // LAST MODIFIED: 12-10-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: User choice.
+// OUTPUT: Dish vector filtered by course type.
+// DESCRIPTION: Function further filters the fMenu by the user's selection for course type (or kids menu) and returns it to Courses().
 vector<Dish> MealCourseFilter(vector<Dish> fMenu, int choice)
 {
-	vector<Dish> courseMenu;
-	char c;
+	vector<Dish> courseMenu;			//Declare a vector that will contain all of the Dish's by course type.
+	char c;								//Char c will be set to whatever course the user selected.
 	if (choice == 1)
 		c = 'A';
 	else if (choice == 2)
@@ -1131,66 +1131,68 @@ vector<Dish> MealCourseFilter(vector<Dish> fMenu, int choice)
 		system("pause");
 		exit(0);
 	}
-	for (int i = 0; i < fMenu.size(); i++)
-		if (fMenu.at(i).GetCourse() == c)
-			courseMenu.push_back(fMenu.at(i));
-	return courseMenu;
+	for (int i = 0; i < fMenu.size(); i++)			//For loop that iterates through every item in the fMenu.
+		if (fMenu.at(i).GetCourse() == c)			//If any of the fMenu Dish's match the course type selected by the user.
+			courseMenu.push_back(fMenu.at(i));		//Add that item into the courseMenu.
+	return courseMenu;								//Return courseMenu to Courses().
 
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
-void Courses(vector<Dish> fMenu, vector<MealCart>& cart)
+// LAST MODIFIED: 12-13-20
+// INPUT: User selection.
+// OUTPUT: Add user's item selection to the cart.
+// DESCRIPTION: Function displays to the user the specific menu they want to order from, and then allows them to add Dish items to their cart. 
+void Courses(vector<Dish> courseMenu, vector<MealCart>& cart)
 {
-	MealCart toCart;
+	MealCart toCart;							//Declare a variable of type MealCart that will contain the users selection that can be pushed back into the cart vector.
 	int choice = -1;
-	if (fMenu.at(0).GetDT() == 'B')
+	if (courseMenu.at(0).GetDT() == 'B')					//If statement block that will display the meal time the user selected.
 		cout << endl << setw(20) << "Breakfast ";
-	else if (fMenu.at(0).GetDT() == 'L')
+	else if (courseMenu.at(0).GetDT() == 'L')
 		cout << endl << setw(20) << "Lunch ";
-	else if (fMenu.at(0).GetDT() == 'D')
+	else if (courseMenu.at(0).GetDT() == 'D')
 		cout << endl << setw(20) << "Dinner ";
 
-	if (fMenu.at(0).GetCourse() == 'A')
+	if (courseMenu.at(0).GetCourse() == 'A')				//If statement block that will display the course (or kids menu) the user selected.
 		cout << "Appetizers" << endl;
-	else if (fMenu.at(0).GetCourse() == 'E')
+	else if (courseMenu.at(0).GetCourse() == 'E')
 		cout << "Entrees" << endl;
-	else if (fMenu.at(0).GetCourse() == 'S')
+	else if (courseMenu.at(0).GetCourse() == 'S')
 		cout << "Sides" << endl;
-	else if (fMenu.at(0).GetCourse() == 'D')
+	else if (courseMenu.at(0).GetCourse() == 'D')
 		cout << "Desserts" << endl;
-	for (int i = 0; i < fMenu.size(); i++)
+	for (int i = 0; i < courseMenu.size(); i++)				//For loop that iterates through every item in the course menu.
 	{
-		cout << i + 1 << ". " << fMenu.at(i).GetName();
-		if (fMenu.at(i).GetGlu() == false)
+		cout << i + 1 << ". " << courseMenu.at(i).GetName() << " (Cal: " << courseMenu.at(i).GetCalories() << ")";		//Prints out in a numbered list each course item.
+		if (courseMenu.at(i).GetGlu() == false)						//If the item is gluten-free, it displays a tag.
 			cout << " (G)";
-		if (fMenu.at(i).GetVeg() == true)
+		if (courseMenu.at(i).GetVeg() == true)						//If the item is vegetarian, it displays a tag.
 			cout << " (V)";
-		cout << setw(10) << right << "$" << setprecision(2) << fixed << fMenu.at(i).GetPrice() << endl;
+		cout << " $" << setprecision(2) << fixed << courseMenu.at(i).GetPrice() << endl;		//Displays the price of the item.
 	}
 	cout << "0. Return" << endl;
 	cout << "*(G) denotes Gluten Free" << endl << "*(V) Denotes Vegetarian" << endl;
-	if (fMenu.at(0).GetCourse() == 'A')
-		cout << "Order an appetizer by typing its number or type '0' to return: ";
-	else if (fMenu.at(0).GetCourse() == 'E')
+	if (courseMenu.at(0).GetCourse() == 'A')
+		cout << "Order an appetizer by typing its number or type '0' to return: ";		//If block that asks the user to order an item based on which course (or kids item) was selected
+	else if (courseMenu.at(0).GetCourse() == 'E')
 		cout << "Order an entree by typing its number or type '0' to return: ";
-	else if (fMenu.at(0).GetCourse() == 'S')
+	else if (courseMenu.at(0).GetCourse() == 'S')
 		cout << "Order a side by typing its number or type '0' to return: ";
-	else if (fMenu.at(0).GetCourse() == 'D')
+	else if (courseMenu.at(0).GetCourse() == 'D')
 		cout << "Order a dessert by typing its number or type '0' to return: ";
-	while (choice == -1)
+	else if (courseMenu.at(0).GetKids() == true)
+		cout << "Order a kids item by typing its number or type '0' to return: ";
+	while (choice == -1)															//While loop that will run until user makes a valid selection.
 	{
 		cin >> choice;
-		if (choice > 0 && choice < fMenu.size() + 1)
+		if (choice > 0 && choice < courseMenu.size() + 1)							//If user makes a valid order.
 		{
-			toCart.SetItem(fMenu.at(choice - 1).GetName(), fMenu.at(choice - 1).GetPrice(), 1);
-			cart.push_back(toCart);
-			cout << "Adding " << fMenu.at(choice - 1).GetName() << " ($" << setprecision(2) << fixed << fMenu.at(choice - 1).GetPrice() << ") to cart." << endl;
-			break;
+			toCart.SetItem(courseMenu.at(choice - 1).GetName(), courseMenu.at(choice - 1).GetPrice(), 1);		//We set toCart's name and price to the user's selection.
+			UpdateMealCart(cart, toCart);																		//Update the Meal cart with function call.
+			cout << "Adding " << courseMenu.at(choice - 1).GetName() << " ($" << setprecision(2) << fixed << courseMenu.at(choice - 1).GetPrice() << ") to cart." << endl;
+			break;																								//Validate that the item had been orderd and return to the main menu.
 		}
 		else if (choice == 0)
 			break;
@@ -1203,28 +1205,44 @@ void Courses(vector<Dish> fMenu, vector<MealCart>& cart)
 }
 
 // AUTHOR: Ethan Puschell
+// CREATION DATE: 12-13-20
+// LAST MODIFIED: 12-13-20
+// INPUT: Cart and toCart
+// OUTPUT: Either adds toCart to Cart, or updates the quantity of the pre-existing item into the cart.
+// DESCRIPTION: Checks if the new MealCart item is a duplicate and either updates a pre-existing item's quantity or adds the new item to the cart.
+void UpdateMealCart(vector<MealCart>& cart, MealCart toCart)
+{
+	bool duplicate = false;
+	for (int i = 0; i < cart.size(); i++)							//For loop that iterates through every item in the cart.
+		if (cart.at(i).GetItemName() == toCart.GetItemName())			//If that item's name matches the item name of what the user just ordered.
+		{
+			cart.at(i).SetQuantity(cart.at(i).GetQuantity() + 1);	//Update the quantity of that pre-existing item by 1.
+			duplicate = true;										//Confirm the selected item is a duplicate.
+		}
+	if (duplicate == false)											//If the user's item is not a duplicate.
+		cart.push_back(toCart);										//Push the new item into the cart vector.
+}
+
+// AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
 // LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: User input.
+// OUTPUT: Display drink menu by selection.
+// DESCRIPTION: Function allows the user to view the drink menu based on their selection.
 void DrinkMenu(vector<Beverage> drinkMenu, vector<MealCart>& cart)
 {
 	int choice = -1;
-
-	while (choice == -1)
+	cout << setw(20) << right << "Drink Menu" << endl;
+	cout << "1. Soft Drinks" << endl;
+	cout << "2. Alcoholic Drinks (21+)" << endl;
+	cout << "0. Return" << endl;
+	cout << "Please choose a drink menu, or press '0' to return: ";
+	while (choice == -1)											//While loop that iterates until user makes a valid selection.
 	{
-		system("cls");
-		cout << setw(20) << right << "Drink Menu" << endl;
-		cout << "1. Soft Drinks" << endl;
-		cout << "2. Alcoholic Drinks (21+)" << endl;
-		cout << "0. Return" << endl;
-		cout << "Please choose a drink menu, or press '0' to return: ";
 		cin >> choice;
-		if (choice == 1 || choice == 2)
+		if (choice == 1 || choice == 2)								//If the user's input was valid.
 		{
-			system("cls");
-			DisplayMenuD(BuildDMenu(drinkMenu, choice), cart);
+			DisplayMenuD(BuildDMenu(drinkMenu, choice), cart);		//Display the user's selection by calling in BuildDMenu that filters the drink menu.
 			break;
 		}
 		else if (choice == 0)
@@ -1237,19 +1255,20 @@ void DrinkMenu(vector<Beverage> drinkMenu, vector<MealCart>& cart)
 	}
 }
 
+
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
 // LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Users choice.
+// OUTPUT: Filtered drink menu.
+// DESCRIPTION: Function returns a filtered drink menu to DisplayDMenu().
 vector<Beverage> BuildDMenu(vector<Beverage> drinkMenu,int choice)
 {
 	if (choice == 1 || choice == 2)
 	{
-		vector<Beverage> filteredMenu;
-		bool booze;
-		if (choice == 1)
+		vector<Beverage> dMenu;						//Vector that will be returned containing the filtered drink menu.
+		bool booze;											//Boolean variable that will contain the user's choice.
+		if (choice == 1)									//Set booze to what the user selected from DrinkMenu().
 			booze = false;
 		else if (choice == 2)
 			booze = true;
@@ -1258,10 +1277,10 @@ vector<Beverage> BuildDMenu(vector<Beverage> drinkMenu,int choice)
 			cerr << "Error. BuildDMenu() should have never been called." << endl;
 			exit(0);
 		}
-		for (int i = 0; i < drinkMenu.size(); i++)
-			if (drinkMenu.at(i).GetAlcohol() == booze)
-				filteredMenu.push_back(drinkMenu.at(i));
-		return filteredMenu;
+		for (int i = 0; i < drinkMenu.size(); i++)			//For loop that will iterate through every Beverage in the drink menu.
+			if (drinkMenu.at(i).GetAlcohol() == booze)		//If the Beverage in the drink menu's alcohol content matches the user's selection.
+				dMenu.push_back(drinkMenu.at(i));	//Add that Beverage to the dMenu.
+		return dMenu;								//Return dMenu to DisplayDMenu().
 	}
 	else
 	{
@@ -1274,35 +1293,51 @@ vector<Beverage> BuildDMenu(vector<Beverage> drinkMenu,int choice)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
-// LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// LAST MODIFIED: 12-13-20
+// INPUT: User's selection.
+// OUTPUT: Added Beverage to cart.
+// DESCRIPTION: Function allows user to order a drink based on the drink menu selected from DrinkMenu().
 void DisplayMenuD(vector<Beverage> dMenu, vector<MealCart>& cart)
 {
 	int choice = -1;
-	MealCart toCart;
-	if (dMenu.at(0).GetAlcohol() == false)
-		cout << setw(20) << right << "Soft drinks Menu" << endl;
+	MealCart toCart;														//Variable of type MealCart that will contain the user's selection and be pushed back into the vector cart.
+	if (dMenu.at(0).GetAlcohol() == false)									//If statement block that displays the menu type the user selected.
+		cout << endl << setw(20) << right << "Soft drinks Menu" << endl;
 	else if (dMenu.at(0).GetAlcohol() == true)
-		cout << setw(20) << right << "Alcoholic Drinks Menu" << endl;
+		cout << endl << setw(20) << right << "Alcoholic Drinks Menu" << endl;
 	else
 	{
 		cerr << "Error. No Menu type was ever given for food." << endl;
 		system("pause");
 		exit(0);
 	}
-	for (int i = 0; i < dMenu.size(); i++)
-		cout << i + 1 << ". " << dMenu.at(i).GetBevName() << "\t$" << setprecision(2) << fixed << dMenu.at(i).GetPrice() << endl;
-	while (choice == -1)
+	for (int i = 0; i < dMenu.size(); i++)									//For loop that iterates through every item in the drink menu.
+	{
+		cout << i + 1 << ". " << dMenu.at(i).GetBevName();					//Prints out the name of the beverage.
+		if (dMenu.at(i).GetAlcohol() == true)
+			cout << " (" << dMenu.at(i).GetABV() << "%)";					//If alcoholic, prints out the ABV.
+		else if (dMenu.at(i).GetAlcohol() == false)							//If non-alcoholic, prints out whether or not it is hot or caffienated.
+		{
+			if (dMenu.at(i).GetHot() == true)
+				cout << " (H)";
+			if (dMenu.at(i).GetCaffeine() == true)
+				cout << " (C)";
+		}
+		cout << " $" << setprecision(2) << fixed << dMenu.at(i).GetPrice() << endl;			//Finally, prints out its price.
+	}
+	if (dMenu.at(0).GetAlcohol() == true)
+		cout << "*(%) denotes ABV" << endl;
+	else
+		cout << "*(H) denotes hot" << endl << "*(C) denotes caffeine" << endl;				//If non alcoholic, notifies the user of what the tags mean.
+	while (choice == -1)																	//While loop until user makes a valid selection.
 	{
 		cout << "Order a beverage by typing its number or type '0' to return: ";
 		cin >> choice;
-		if (choice > 0 && choice < dMenu.size() + 1 && ValidateAge(dMenu.at(choice - 1)) == true)
+		if (choice > 0 && choice < dMenu.size() + 1 && ValidateAge(dMenu.at(choice - 1)) == true)		//If the user makes a valid selection and the ValidateAge() function returns true.
 		{
-			toCart.SetItem(dMenu.at(choice - 1).GetBevName(), dMenu.at(choice - 1).GetPrice(), 1);
-			cart.push_back(toCart);
-			cout << "Adding " << dMenu.at(choice - 1).GetBevName() << " ($" << dMenu.at(choice - 1).GetPrice() << ") to cart." << endl;
+			toCart.SetItem(dMenu.at(choice - 1).GetBevName(), dMenu.at(choice - 1).GetPrice(), 1);		//Set toCart to the Beverage the user chose.
+			UpdateMealCart(cart, toCart);																//Update the Meal cart with function call.
+			cout << "Adding " << dMenu.at(choice - 1).GetBevName() << " ($" << dMenu.at(choice - 1).GetPrice() << ") to cart." << endl;		//Confirm that the user's selection has been added to their cart.
 			break;
 		}
 		else if (choice == 0)
@@ -1315,65 +1350,62 @@ void DisplayMenuD(vector<Beverage> dMenu, vector<MealCart>& cart)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-10-20
 // LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// INPUT: User's age.
+// OUTPUT: Boolean.
+// DESCRIPTION: Functions validates the user's age (if necessary).
 bool ValidateAge(Beverage drink)
 {
 	int age;
-	if (drink.GetAlcohol() == true)
+	if (drink.GetAlcohol() == true)			//If the drink the user is attempting to order is alcoholic, we need to validate the users age.
 	{
 		cout << "Please enter your age: ";
 		cin >> age;
-		if (age < 21)
+		if (age < 21)						//We at the University of Michigan-Dearborn CECS do not condone the sale of alcohol to any minors.
 		{
 			cout << "Sorry, you are not old enough to order this drink." << endl;
 			return false;
 		}
 		else
-		{
-			cout << "Success! Please present a Photo ID to the cabin crew when they deliver your drink for verification." << endl;
+		{									//Otherwise, we allow the user to order the drink, but notify them that we will need further verification during the flight.
+			cout << "Please present a Photo ID to the cabin crew when they deliver your drink for verification." << endl;
 			return true;
 		}
 	}
 	else
-		return true;
+		return true;			//Else, if the drink is non-alcoholic, the function simply returns true.
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
 // LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: User's selection.
+// OUTPUT: None.
+// DESCRIPTION: Let the user view their cart.
 void ViewCart(vector<MealCart>& cart)
 {
-	if (cart.empty() == true)
+	if (cart.empty() == true)				//If the cart is empty, don't display anything.
 		cout << "Cart is empty." << endl;
 	else
 	{
-		double total = 0;
+		double total = 0;					//Otherwise, we display the cart.
 		int choice = -1;
-
-		while(choice == -1)
+		cout << endl << setw(20) << right << "Cart" << endl;
+		cout << "Name" << setw(25) << right <<  "Quantity" << setw(20) << right << "Cost" << endl;
+		for (int i = 0; i < cart.size(); i++)														//For loop that iterates through the cart and displays the item name and cost.
+			cout << i + 1 << ". " << cart[i].GetItemName() << setw(10) << right << cart[i].GetQuantity() << setw(20) << right << "$" << cart[i].GetItemCost() << endl;
+		cout << "Total: $" << setprecision(2) << fixed << CalculateTotal(cart) << endl << endl;		//Function call to display the total.
+		cout << "Options" << endl;
+		cout << "1. Remove items from cart" << endl;
+		cout << "0. Return" << endl;
+		while (choice == -1)							//While loop that runs until the user makes a valid selection.
 		{
-			system("cls");
-			cout << endl << setw(20) << right << "Cart" << endl;
-			cout << "Name" << setw(25) << right << "Quantity" << setw(20) << right << "Cost" << endl;
-			for (int i = 0; i < cart.size(); i++)
-				cout << i + 1 << ". " << cart[i].GetItemName() << setw(10) << right << cart[i].GetQuantity() << setw(20) << right << "$" << cart[i].GetItemCost() << endl;
-			cout << "Total: $" << setprecision(2) << fixed << CalculateTotal(cart) << endl << endl;
-			cout << "Options" << endl;
-			cout << "1. Remove items from cart" << endl;
-			cout << "0. Return" << endl;
 			cout << "Please select an option: ";
 			cin >> choice;
 			if (choice == 0)
 				break;
 			else if (choice == 1)
 			{
-				//system("cls");
-				EditCart(cart);
+				EditCart(cart);							//Function call to allow the user to edit their cart.
 				break;
 			}
 			else
@@ -1388,21 +1420,35 @@ void ViewCart(vector<MealCart>& cart)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-11-20
-// LAST MODIFIED: 12-11-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// LAST MODIFIED: 12-13-20
+// INPUT: User selection.
+// OUTPUT: Updated cart.
+// DESCRIPTION: Let the user edit their cart.
 void EditCart(vector<MealCart>& cart)
 {
 	int choice = -1;
-	while (choice == -1)
+	while (choice == -1)									//While loop that iterates until the user makes a valid selection.
 	{
 		cout << "What would you like to remove from the cart (type 0 to cancel): ";
 		cin >> choice;
-		if (choice > 0 && choice < cart.size() + 1)
+		if (choice > 0 && choice < cart.size() + 1)			//If the selection was valid.
 		{
-			cout << "Removing " << cart.at(choice - 1).GetItemName() << " from the cart." << endl;
-			cart.erase (cart.begin() + choice - 1);
+			if (cart.at(choice - 1).GetQuantity() == 1)
+				RemoveFromMealCart(cart, choice);
+			else if (cart.at(choice - 1).GetQuantity() > 1)
+			{
+				int quantity;
+				cout << "Please enter the quantity you would like to remove: ";
+				cin >> quantity;
+				if (cart.at(choice - 1).GetQuantity() == quantity || cart.at(choice - 1).GetQuantity() < quantity)
+					RemoveFromMealCart(cart, choice);
+				else if (cart.at(choice - 1).GetQuantity() > quantity)
+				{
+					cart.at(choice - 1).SetQuantity(cart.at(choice - 1).GetQuantity() - quantity);
+					cout << "Removed " << quantity << " of " << cart.at(choice - 1).GetItemName() << " from the cart. New quantity: " << cart.at(choice - 1).GetQuantity() << endl;
+					cout << "New total: $" << CalculateTotal(cart) << endl << endl;
+				}
+			}
 		}
 		else if (choice == 0)
 			break;
@@ -1415,55 +1461,72 @@ void EditCart(vector<MealCart>& cart)
 }
 
 // AUTHOR: Ethan Puschell
-// CREATION DATE: 12-9-20
-// LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
-double CalculateTotal(vector<MealCart> cart)
+// CREATION DATE: 12-13-20
+// LAST MODIFIED: 12-13-20
+// INPUT: Cart and choice.
+// OUTPUT: Updated cart.
+// DESCRIPTION: Function erases the user selected item from cart.
+void RemoveFromMealCart(vector<MealCart>& cart, int choice)
 {
-	if (cart.empty() == true)
-		return 0;
-	double total = 0;
-	for (int i = 0; i < cart.size(); i++)
-		total += (cart.at(i).GetItemCost() * cart.at(i).GetQuantity());
-	return total;
+	cout << "Removing " << cart.at(choice - 1).GetItemName() << " from the cart." << endl;
+	cart.erase(cart.begin() + choice - 1);			//Remove the item from the user's cart.
+	cout << "New total: $" << setprecision(2) << fixed << CalculateTotal(cart) << endl << endl;		//Display the new total to the user.
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
 // LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Cart.
+// OUTPUT: Total.
+// DESCRIPTION: Calculate the total in the cart.
+double CalculateTotal(vector<MealCart> cart)
+{
+	if (cart.empty() == true)					//If the cart is empty, return 0.
+		return 0;
+	double total = 0;
+	for (int i = 0; i < cart.size(); i++)									//For loop that iterates through every item in the cart.
+		total += (cart.at(i).GetItemCost() * cart.at(i).GetQuantity());		//Add its quantity multiplied by the quantity of the item.
+	return total;															//Return the total to the user.
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-9-20
+// LAST MODIFIED: 12-9-20
+// INPUT: Cart and bill.
+// OUTPUT: Add food and drink total to Bill.
+// DESCRIPTION: Adds the total from the food and drinks user ordered into the Bill class.
 void Checkout(vector<MealCart> cart, Bill& littleBill)
 {
-	cout << "Completing your order. Thank you!" << endl;
-	double total = CalculateTotal(cart);
-	cout << "Adding $" << setprecision(2) << fixed << total << " to the account bill." << endl;
-	littleBill.add(Item("food and drink", total));
-	littleBill.printToFile("\tFOOD AND DRINKS: $" + to_string(total));
+	double total = CalculateTotal(cart);																//Calculate the total.
+	if (total > 0)																						//If the user ordered food and drinks.
+	{
+		cout << "Completing your order. Thank you!" << endl;
+		cout << "Adding $" << setprecision(2) << fixed << total << " to the account bill." << endl;
+		littleBill.add(Item("food and drink", total));													//Add the Food and drink total to the Bill class.
+	}
+	else
+		cout << "No food/drinks ordered, returning to Flight Menu." << endl;							//Otherwise, simply return to the Flight menu.
 	system("pause");
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
 // LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
-void PrintMenu(vector<Dish> cart)
+// INPUT: Food menu vector.
+// OUTPUT: Dishes in the vector.
+// DESCRIPTION: Test function that printed out every Dish in the food menu.
+void PrintMenu(vector<Dish> foodMenu)
 {
-	for (int i = 0; i < cart.size(); i++)
-		cart.at(i).PrintDish();
+	for (int i = 0; i < foodMenu.size(); i++)
+		foodMenu.at(i).PrintDish();
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-9-20
 // LAST MODIFIED: 12-9-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: Drink menu vector.
+// OUTPUT: Beverages in the vector.
+// DESCRIPTION: Test function prints out every Beverage in the drink menu.
 void PrintDrinks(vector<Beverage> drinks)
 {
 	for (int i = 0; i < drinks.size(); i++)
