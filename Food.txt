@@ -33,6 +33,9 @@ Caprese salad. A D 250 1 0 0 4.35
 Prime rib and potatoes. E D 208 0 0 0 13.45
 Garlic butter baked salmon. E D 412 0 0 0 12.35
 Chopped Thai salad. E D 161 1 0 0 10.59
+French fries. S D 365 1 1 0 7.49
+Brussels sprouts. S D 38 1 1 0 5.45
+Baked zucchini S D 33 1 1 0 8.45
 Strawberry sponge cake. D D 84 1 0 0 7.55
 Apple crumble pie. D D 67 1 0 0 8.49
 Flourless chocolate cake. D D 94 1 1 0 9.37
